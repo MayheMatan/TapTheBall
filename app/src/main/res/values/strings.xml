@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TapTheBall</string>
+    <string name="name_input">Enter your name:</string>
+    <string name="lvl_choose">Please choose level</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+</resources>

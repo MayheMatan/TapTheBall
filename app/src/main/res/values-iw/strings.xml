@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TapTheBall</string>
+    <string name="name_input">הכנס את שמך:</string>
+    <string name="lvl_choose">אנא בחר רמה</string>
+    <string name="easy">קל</string>
+    <string name="medium">בינוני</string>
+    <string name="hard">קשה</string>
+</resources>

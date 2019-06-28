@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/preview">
+
+    <TextView
+        android:id="@+id/app_nameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:textSize="50sp"
+        android:fontFamily="casual"/>
+
+    <EditText
+        android:id="@+id/nameEt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_nameTv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/textview_shape"
+        android:fontFamily="casual"
+        android:hint="@string/name_input"
+        android:padding="15dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp" />
+
+    <TextView
+        android:id="@+id/lvl_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameEt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:fontFamily="casual"
+        android:text="@string/lvl_choose"
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/easy_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lvl_tv"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/textview_shape"
+        android:text="@string/easy"
+        android:fontFamily="casual"/>
+
+    <Button
+        android:id="@+id/medium_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/easy_btn"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/textview_shape"
+        android:layout_marginTop="20dp"
+        android:text="@string/medium"
+        android:fontFamily="casual"/>
+
+    <Button
+        android:id="@+id/hard_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/medium_btn"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/textview_shape"
+        android:layout_marginTop="20dp"
+        android:text="@string/easy"
+        android:fontFamily="casual"/>
+
+
+</RelativeLayout>
