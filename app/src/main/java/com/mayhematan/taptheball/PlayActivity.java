@@ -27,6 +27,7 @@ public class PlayActivity extends AppCompatActivity {
     SharedPreferences preference;
     int maxY;
     int maxX;
+    int difficult;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -52,12 +53,12 @@ public class PlayActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(R.id.FullFrameLauout, startfragment).commit();
         currentXYTV = (TextView) findViewById(R.id.CurrentXYTV);
         currentXYTV.setVisibility(View.INVISIBLE);
-        /////////////StartBtn = (Button) findViewById(R.id.StartBtn);
+        difficult = getIntent ().getIntExtra ( "Level", 0 );
         FullFrameLauout = (FrameLayout) findViewById(R.id.FullFrameLauout);
 
 
         /////////////declare the custom ball view
-        ball = new Ball(PlayActivity.this);
+        ball = new Ball(PlayActivity.this, difficult);
         FullFrameLauout.addView ( ball );
         ball.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -65,7 +66,7 @@ public class PlayActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (event.getY() >= (maxY / 2) && ball.DownYping == ball.Yping) {
                         ////////////while the user touch the ball limits the view goes up
-                        if (counter < 10) {
+                        if (counter < 10/difficult) {
                             if ((event.getY() - ball.currentY) < ball.LargeBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
                                 float a = event.getX() - ball.currentX;
                                 float b = ball.LargeBallBmp.getWidth();
@@ -83,7 +84,7 @@ public class PlayActivity extends AppCompatActivity {
                                 }
                             }
                             ///////////minimize the ball radius
-                        } else if (counter >= 10 && counter < 20) {
+                        } else if (counter >= 10/difficult && counter < 20/difficult) {
                             if ((event.getY() - ball.currentY) < ball.MiddleBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
                                 if ((event.getX() - ball.currentX) < ball.MiddleBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
                                     if (ball.MiddleBallBmp.getWidth() / 2 > (event.getX() - ball.currentX)) {
@@ -97,7 +98,7 @@ public class PlayActivity extends AppCompatActivity {
                                     currentXYTV.setText("" + counter);
                                 }
                             }
-                        } else if (counter >= 20) {
+                        } else if (counter >= 20/difficult) {
                             if ((event.getY() - ball.currentY) < ball.SmallBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
                                 if ((event.getX() - ball.currentX) < ball.SmallBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
                                     if (ball.SmallBallBmp.getWidth() / 2 >= (event.getX() - ball.currentX)) {
@@ -131,7 +132,7 @@ public class PlayActivity extends AppCompatActivity {
                 }
                 currentXYTV.setText("0");
                 counter = 0;
-                ball = new Ball(PlayActivity.this);
+                ball = new Ball(PlayActivity.this, difficult);
                 FullFrameLauout.addView(ball);
                 getFragmentManager().beginTransaction().replace(R.id.FullFrameLauout, startfragment).commit();
             }

@@ -39,9 +39,12 @@ public class Ball extends View {
     boolean IsInitLine=false;
     public  int maxX=0;
     public int maxY=0;
+    public int diff;
 
-    public Ball(Context context) {
+    public Ball(Context context, int difficult) {
         super(context);
+        diff = difficult;
+        System.out.println (diff);
         //////////initialize the all 3 kind of ball by size
         thiscontext=context;
         LargeBallBmp = BitmapFactory.decodeResource(getResources(), R.drawable.balltwo);
@@ -124,9 +127,21 @@ public class Ball extends View {
     protected void onDraw(Canvas canvas) {
         ////////////draw the custom ball view all the time that the handler is running
         if (IsInitLine) {
-            path.moveTo(0, (float) (maxY/2) );
-            path.lineTo(maxX, (float) (maxY/2) );
-            canvas.drawPath(path,paint);
+            if (diff == 1) {
+                path.moveTo ( 0, (float) (maxY / 2) );
+                path.lineTo ( maxX, (float) (maxY / 2) );
+                canvas.drawPath ( path, paint );
+            }
+            if (diff == 2) {
+                path.moveTo ( 0, (float) (maxY / 1.75) );
+                path.lineTo ( maxX, (float) (maxY / 1.75) );
+                canvas.drawPath ( path, paint );
+            }
+            if (diff == 3) {
+                path.moveTo ( 0, (float) (maxY / 1.5) );
+                path.lineTo ( maxX, (float) (maxY / 1.5) );
+                canvas.drawPath ( path, paint );
+            }
         }
         thiscanvas = canvas;
         if (counter<10) {
