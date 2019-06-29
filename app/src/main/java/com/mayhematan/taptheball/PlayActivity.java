@@ -31,6 +31,7 @@ public class PlayActivity extends AppCompatActivity {
     int maxY;
     int maxX;
     int difficult;
+    int ballDiff;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -57,6 +58,7 @@ public class PlayActivity extends AppCompatActivity {
         currentXYTV = findViewById(R.id.currentXYTV);
         currentXYTV.setVisibility(View.INVISIBLE);
         difficult = getIntent ().getIntExtra ( "Level", 0 );
+        ballDiff = getIntent ().getIntExtra ( "BallDiff",0 );
         frameLayout = findViewById(R.id.FullFrameLauout);
         /////////////initialize the random field
         Drawable fields[] = {getDrawable(R.drawable.noob_field),
@@ -64,7 +66,7 @@ public class PlayActivity extends AppCompatActivity {
                              getDrawable(R.drawable.expert_field)};
         frameLayout.setBackground(fields[new Random().nextInt(fields.length)]);
         /////////////declare the custom ball view
-        ball = new Ball(PlayActivity.this, difficult);
+        ball = new Ball(PlayActivity.this, difficult, ballDiff);
         frameLayout.addView ( ball );
         ball.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -142,7 +144,7 @@ public class PlayActivity extends AppCompatActivity {
                 }
                 currentXYTV.setText("0");
                 counter = 0;
-                ball = new Ball(PlayActivity.this, difficult);
+                ball = new Ball(PlayActivity.this, difficult, ballDiff);
                 frameLayout.addView(ball);
                 getFragmentManager().beginTransaction().replace(R.id.FullFrameLauout, startfragment).commit();
             }

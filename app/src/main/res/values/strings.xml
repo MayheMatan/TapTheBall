@@ -14,4 +14,6 @@
     <string name="sure">Are you sure you want to buy this ball?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="no_funds">Not enough funds</string>
+    <string name="back">Back</string>
 </resources>

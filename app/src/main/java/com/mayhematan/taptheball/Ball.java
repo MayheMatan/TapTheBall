@@ -39,16 +39,21 @@ public class Ball extends View {
     public int maxY=0;
     public int diff;
 
-    public Ball(Context context, int difficult) {
+    public Ball(Context context, int difficult, int ballDiff) {
         super(context);
         diff = difficult;
-        System.out.println (diff);
         //////////initialize the all 3 kind of ball by size
-        myContext =context;
-        LargeBallBmp = BitmapFactory.decodeResource(getResources(), R.drawable.ball_noob);
-        //int a=LargeBallBmp.getWidth();
-        MiddleBallBmp=Bitmap.createScaledBitmap(LargeBallBmp,LargeBallBmp.getWidth()*3/4,LargeBallBmp.getHeight()*3/4,false);
-        SmallBallBmp=Bitmap.createScaledBitmap(MiddleBallBmp,MiddleBallBmp.getWidth()*3/4,MiddleBallBmp.getHeight()*3/4,false);
+        myContext = context;
+        if (ballDiff == 0) {
+                LargeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_noob );
+        }
+        else if (ballDiff == 1){
+            LargeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_med );
+        }
+        else
+            LargeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_expert );
+        MiddleBallBmp = Bitmap.createScaledBitmap ( LargeBallBmp, LargeBallBmp.getWidth () * 3 / 4, LargeBallBmp.getHeight () * 3 / 4, false );
+        SmallBallBmp = Bitmap.createScaledBitmap ( MiddleBallBmp, MiddleBallBmp.getWidth () * 3 / 4, MiddleBallBmp.getHeight () * 3 / 4, false );
     }
 
     public Ball(Context context, @Nullable AttributeSet attrs) {

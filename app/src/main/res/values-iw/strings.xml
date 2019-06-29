@@ -15,4 +15,6 @@
     <string name="sure">אתה בטוח שברצונך לקנות את הכדור?</string>
     <string name="yes">כן</string>
     <string name="no">לא</string>
+    <string name="no_funds">אין מספיק אשראי</string>
+    <string name="back">חזרה</string>
 </resources>
