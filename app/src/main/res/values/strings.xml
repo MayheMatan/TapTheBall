@@ -10,4 +10,8 @@
     <string name="ball_selector">Select a ball:</string>
     <string name="start">START</string>
     <string name="credit">Credit:</string>
+    <string name="purchased">Purchased</string>
+    <string name="sure">Are you sure you want to buy this ball?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

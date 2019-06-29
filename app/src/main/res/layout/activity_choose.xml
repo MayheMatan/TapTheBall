@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/preview">
+
+    <TextView
+        android:id="@+id/credit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/credit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textSize="50sp"
+        android:fontFamily="casual"/>
+
+    <TextView
+        android:id="@+id/ball_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ball_selector"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/credit"
+        android:textSize="50sp"
+        android:fontFamily="casual"/>
+
+    <ImageButton
+        android:id="@+id/noob_ball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ball_noob"
+        android:background="@color/zeroAlpha"
+        android:layout_below="@+id/ball_select"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"/>
+
+    <TextView
+        android:id="@+id/ball_med_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/med_ball"
+        android:layout_centerHorizontal="true"
+        android:text="100"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/ball_expert_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/expert_ball"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="casual"
+        android:text="250"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/med_ball"
+        android:layout_toEndOf="@id/noob_ball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ball_med"
+        android:background="@color/zeroAlpha"
+        android:layout_below="@+id/ball_select"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"/>
+
+    <ImageButton
+        android:id="@+id/expert_ball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ball_expert"
+        android:background="@color/zeroAlpha"
+        android:layout_below="@+id/ball_select"
+        android:layout_toEndOf="@id/med_ball"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"/>
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/med_ball"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/textview_shape"
+        android:text="@string/start"
+        android:textSize="35sp"
+        android:padding="20dp"
+        android:paddingStart="40sp"
+        android:paddingEnd="40sp"
+        android:fontFamily="casual"/>
+
+</RelativeLayout>
