@@ -19,8 +19,8 @@ import android.widget.TextView;
  */
 public class StartFragment extends Fragment {
 
-    Button StartBtn;
-    TextView RecordTV;
+    Button startBtn,backBtn;
+    TextView recordTV;
     SharedPreferences preferences;
     public StartFragment() {
         ///// Required empty public constructor
@@ -32,12 +32,12 @@ public class StartFragment extends Fragment {
         ////// Inflate the layout for this fragment
         ////////////////show a start game fragment
         View view = inflater.inflate(R.layout.fragment_start, container, false);
-        RecordTV = view.findViewById(R.id.RecordTV);
+        recordTV = view.findViewById(R.id.RecordTV);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int getscore = preferences.getInt("top score", 0);
-        RecordTV.setText(""+getResources().getString(R.string.top_score)+ " " + getscore);
-        StartBtn = view.findViewById(R.id.StartBtn);
-        StartBtn.setOnClickListener(new View.OnClickListener() {
+        recordTV.setText(""+getResources().getString(R.string.top_score)+ " " + getscore);
+        startBtn = view.findViewById(R.id.StartBtn);
+        startBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                /////////////start the game by broadcast
@@ -46,6 +46,17 @@ public class StartFragment extends Fragment {
                 getActivity().getFragmentManager().beginTransaction().remove(StartFragment.this).commit();
             }
         });
+        backBtn = view.findViewById ( R.id.back_to_main );
+        backBtn.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                /////////////end's the game by broadcast
+                Intent intent = new Intent("com.mayhematan.taptheball.BACK_TO_MAIN");
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                getActivity().getFragmentManager().beginTransaction().remove(StartFragment.this).commit();
+            }
+        } );
+
         return view;
     }
 

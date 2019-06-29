@@ -17,4 +17,6 @@
     <string name="no">לא</string>
     <string name="no_funds">אין מספיק אשראי</string>
     <string name="back">חזרה</string>
+    <string name="back_to_main">חזרה לתפריט</string>
+    <string name="leader_board">טבלת שיאים:</string>
 </resources>

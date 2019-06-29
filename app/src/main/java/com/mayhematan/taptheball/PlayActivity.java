@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
@@ -32,12 +33,14 @@ public class PlayActivity extends AppCompatActivity {
     int maxX;
     int difficult;
     int ballDiff;
+    String userName;
+    Integer size;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_play );
+        setContentView(R.layout.activity_play);
 
         /////////get device dis[lay data
         Display mdisp = getWindowManager().getDefaultDisplay();
@@ -46,19 +49,23 @@ public class PlayActivity extends AppCompatActivity {
         maxX = mdispSize.x;
         maxY = mdispSize.y;
         ////////////listening to Broadcast
-        IntentFilter Handlerfilter = new IntentFilter("com.mayhematan.taptheball.HANDLER_STOP");
-        IntentFilter Startfilter = new IntentFilter("com.mayhematan.taptheball.GAME_BEGIN");
-        HandlerListener hendlerlistener = new HandlerListener();
-        LocalBroadcastManager.getInstance(this).registerReceiver(hendlerlistener, Handlerfilter);
-        LocalBroadcastManager.getInstance(this).registerReceiver(hendlerlistener, Startfilter);
+        IntentFilter handlerFilter = new IntentFilter("com.mayhematan.taptheball.HANDLER_STOP");
+        IntentFilter startFilter = new IntentFilter("com.mayhematan.taptheball.GAME_BEGIN");
+        IntentFilter backToMainFilter = new IntentFilter ("com.mayhematan.taptheball.BACK_TO_MAIN");
+        HandlerListener hendlerListener = new HandlerListener();
+        LocalBroadcastManager.getInstance(this).registerReceiver(hendlerListener, handlerFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(hendlerListener, startFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(hendlerListener, backToMainFilter);
         ////////////get the high score from preference
         preference = PreferenceManager.getDefaultSharedPreferences(PlayActivity.this);
         startfragment = new StartFragment();
         getFragmentManager().beginTransaction().replace(R.id.FullFrameLauout, startfragment).commit();
         currentXYTV = findViewById(R.id.currentXYTV);
         currentXYTV.setVisibility(View.INVISIBLE);
+
         difficult = getIntent ().getIntExtra ( "Level", 0 );
         ballDiff = getIntent ().getIntExtra ( "BallDiff",0 );
+        userName = getIntent ().getStringExtra ( "Name" );
         frameLayout = findViewById(R.id.FullFrameLauout);
         /////////////initialize the random field
         Drawable fields[] = {getDrawable(R.drawable.noob_field),
@@ -135,12 +142,38 @@ public class PlayActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("com.mayhematan.taptheball.HANDLER_STOP")) {
                 //////////if the current turn of game stop and the user fail
+                size = preference.getInt ( "size", 0 );
                 int top = preference.getInt("top score", counter);
                 int oldCredit = preference.getInt ( "credit", counter );
                 int newCredit = oldCredit + counter;
                 preference.edit ().putInt("credit", newCredit).apply();
                 if (counter >= top) {
                     preference.edit().putInt("top score", counter).apply();
+                }
+                SharedPreferences.Editor editor = preference.edit();
+                if (ballDiff == 0) {
+                    Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_noob),
+                            getIntent().getStringExtra("Name"), counter);
+                    size++;
+                    editor.putString(size.toString(), score.toString());
+                    editor.putInt("size", size).apply();
+                    editor.commit ();
+                }
+                else if(ballDiff == 1) {
+                    Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_med),
+                            getIntent().getStringExtra("Name"), counter);
+                    size++;
+                    editor.putString(size.toString(), score.toString());
+                    editor.putInt("size", size).apply();
+                    editor.commit ();
+                }
+                else {
+                    Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_expert),
+                            getIntent().getStringExtra("Name"), counter);
+                    size++;
+                    editor.putString(size.toString(), score.toString());
+                    editor.putInt("size", size).apply();
+                    editor.commit ();
                 }
                 currentXYTV.setText("0");
                 counter = 0;
@@ -162,11 +195,14 @@ public class PlayActivity extends AppCompatActivity {
                 ball.InitializeLine();
                 currentXYTV.setVisibility(View.VISIBLE);
             }
+            else if (intent.getAction().equals("com.mayhematan.taptheball.BACK_TO_MAIN")) {
+                Intent intent1 = new Intent ( PlayActivity.this, MainActivity.class );
+                startActivity(intent1);
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
-        finish();
     }
 }

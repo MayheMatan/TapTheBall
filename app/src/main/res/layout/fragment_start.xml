@@ -7,7 +7,7 @@
     android:layout_centerInParent="true"
     android:background="@drawable/fragment_background"
     android:orientation="vertical"
-    android:weightSum="3"
+    android:weightSum="4"
     tools:context=".StartFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -41,4 +41,19 @@
         android:fontFamily="casual"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/back_to_main"
+        android:layout_below="@id/RecordTV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/fragment_background"
+        android:gravity="center"
+        android:text="@string/back_to_main"
+        android:textAllCaps="false" />
 </LinearLayout>

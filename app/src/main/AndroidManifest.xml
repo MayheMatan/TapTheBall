@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".PlayActivity"/>
         <activity android:name=".ChooseActivity"/>
+        <activity android:name=".LeaderBoardActivity"/>
     </application>
 
 </manifest>

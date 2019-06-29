@@ -16,4 +16,6 @@
     <string name="no">No</string>
     <string name="no_funds">Not enough funds</string>
     <string name="back">Back</string>
+    <string name="back_to_main">Back to menu</string>
+    <string name="leader_board">Leaders of the board:</string>
 </resources>

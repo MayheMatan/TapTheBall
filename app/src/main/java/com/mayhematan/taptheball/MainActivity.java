@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     String userName;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         final EditText nameEt = findViewById(R.id.nameEt);
+        final Button leaderBoard = findViewById ( R.id.leader );
         userName = nameEt.getText().toString();
 
         final Button difficulty[] = {
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < 3; i++) {
             difficulty[i].startAnimation(slideUp);
+            leaderBoard.startAnimation(slideUp);
         }
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -44,11 +47,20 @@ public class MainActivity extends AppCompatActivity {
                     difficulty[i].startAnimation(buttonAnim);
                 }
                 nameEt.startAnimation(buttonAnim);
+                leaderBoard.startAnimation ( buttonAnim );
             }
         },1500);
 
+        leaderBoard.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent ( MainActivity.this, LeaderBoardActivity.class );
+                startActivity(intent);
+            }
+        } );
 
-            for (int i = 0; i < 3; i++) {
+
+        for (int i = 0; i < 3; i++) {
                 difficulty[i].setOnClickListener(new View.OnClickListener () {
                     @Override
                     public void onClick(View v) {
@@ -59,15 +71,19 @@ public class MainActivity extends AppCompatActivity {
                         } else if ((v).getId () == R.id.hard_btn) {
                             diff = 3;
                         }
-
-                        Intent intent = new Intent (MainActivity.this, ChooseActivity.class);
-                        intent.putExtra ("Level", diff);
-                        intent.putExtra ("Name", userName);
-                        Bundle extras = new Bundle ();
-                        intent.putExtras (extras);
-                        startActivity (intent);
+                        userName = nameEt.getText().toString();
+                        if (!userName.isEmpty()) {
+                            Intent intent = new Intent ( MainActivity.this, ChooseActivity.class );
+                            intent.putExtra ( "Level", diff );
+                            intent.putExtra ( "Name", userName );
+                            Bundle extras = new Bundle ();
+                            intent.putExtras ( extras );
+                            startActivity ( intent );
+                        }
+                        else
+                            Toast.makeText ( MainActivity.this, "Enter name first", Toast.LENGTH_SHORT ).show ();
                     }
                 });
             }
-        }
     }
+}
