@@ -32,11 +32,11 @@ public class StartFragment extends Fragment {
         ////// Inflate the layout for this fragment
         ////////////////show a start game fragment
         View view = inflater.inflate(R.layout.fragment_start, container, false);
-        RecordTV = (TextView) view.findViewById(R.id.RecordTV);
+        RecordTV = view.findViewById(R.id.RecordTV);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int getscore = preferences.getInt("top score", 0);
-        RecordTV.setText("TOP SCORE : " + getscore);
-        StartBtn=  (Button) view.findViewById(R.id.StartBtn);
+        RecordTV.setText(""+getResources().getString(R.string.top_score)+ " " + getscore);
+        StartBtn = view.findViewById(R.id.StartBtn);
         StartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

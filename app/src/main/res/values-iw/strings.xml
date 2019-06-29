@@ -6,4 +6,9 @@
     <string name="easy">קל</string>
     <string name="medium">בינוני</string>
     <string name="hard">קשה</string>
+    <string name="top_score">ניקוד שיא:</string>
+    <string name="field_selector">בחר מגרש:</string>
+    <string name="ball_selector">בחר כדור:</string>
+    <string name="start">" התחל"</string>
+    <string name="credit">נצברו:</string>
 </resources>

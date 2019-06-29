@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nameEt"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="casual"
         android:text="@string/lvl_choose"
         android:textSize="40sp" />
@@ -46,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/lvl_tv"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/textview_shape"
         android:text="@string/easy"

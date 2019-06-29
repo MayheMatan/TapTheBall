@@ -17,38 +17,39 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate ( savedInstanceState );
-        setContentView ( R.layout.activity_main );
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_main);
 
-        final Animation slideUp = AnimationUtils.loadAnimation ( getApplicationContext (), R.anim.slide_up_in );
+        final Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_in);
         final Animation buttonAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_anim);
 
 
-        final EditText nameEt = findViewById ( R.id.nameEt );
-        userName = nameEt.getText ().toString ();
+        final EditText nameEt = findViewById(R.id.nameEt);
+        userName = nameEt.getText().toString();
+
         final Button difficulty[] = {
-                findViewById ( R.id.easy_btn ),
-                findViewById ( R.id.medium_btn ),
-                findViewById ( R.id.hard_btn )
+                findViewById(R.id.easy_btn),
+                findViewById(R.id.medium_btn),
+                findViewById(R.id.hard_btn)
         };
 
         for (int i = 0; i < 3; i++) {
-            difficulty[i].startAnimation ( slideUp );
+            difficulty[i].startAnimation(slideUp);
         }
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < 3; i++) {
-                    difficulty[i].startAnimation ( buttonAnim );
+                    difficulty[i].startAnimation(buttonAnim);
                 }
-                nameEt.startAnimation (buttonAnim);
+                nameEt.startAnimation(buttonAnim);
             }
         },1500);
 
 
             for (int i = 0; i < 3; i++) {
-                difficulty[i].setOnClickListener ( new View.OnClickListener () {
+                difficulty[i].setOnClickListener(new View.OnClickListener () {
                     @Override
                     public void onClick(View v) {
                         if ((v).getId () == R.id.easy_btn) {
@@ -59,15 +60,14 @@ public class MainActivity extends AppCompatActivity {
                             diff = 3;
                         }
 
-                        Intent intent = new Intent ( MainActivity.this, PlayActivity.class );
-                        intent.putExtra ( "Level", diff );
-                        intent.putExtra ( "Name", userName );
+                        Intent intent = new Intent (MainActivity.this, ChooseActivity.class);
+                        intent.putExtra ("Level", diff);
+                        intent.putExtra ("Name", userName);
                         Bundle extras = new Bundle ();
-                        intent.putExtras ( extras );
-                        startActivity ( intent );
+                        intent.putExtras (extras);
+                        startActivity (intent);
                     }
-                } );
+                });
             }
-
         }
     }

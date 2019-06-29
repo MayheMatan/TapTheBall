@@ -4,14 +4,15 @@
     android:id="@+id/FullFrameLauout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/soccerfield"
+    android:background="@drawable/noob_field"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/CurrentXYTV"
+        android:id="@+id/currentXYTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textColor="@color/colorWhite"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginStart="15dp" />
 

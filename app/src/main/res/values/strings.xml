@@ -5,4 +5,9 @@
     <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
+    <string name="top_score">TOP SCORE:</string>
+    <string name="field_selector">Select a field:</string>
+    <string name="ball_selector">Select a ball:</string>
+    <string name="start">START</string>
+    <string name="credit">Credit:</string>
 </resources>

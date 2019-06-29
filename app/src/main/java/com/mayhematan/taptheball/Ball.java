@@ -14,8 +14,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.mayhematan.taptheball.R;
-
 
 public class Ball extends View {
 
@@ -23,16 +21,16 @@ public class Ball extends View {
     public float currentY=0;
     public float currentX=290;
     Handler handler;
-    public float DownYping=18;
-    public float DownXping=18;
-    public float UpXping=-18;
-    public float UpYping=-18;
-    float Yping=DownYping;
-    float Xping=DownXping;
-    Context thiscontext;
+    public float downYping =18;
+    public float downXping =18;
+    public float upXping =-18;
+    public float upYping =-18;
+    float Yping= downYping;
+    float Xping= downXping;
+    Context myContext;
     public Bitmap MiddleBallBmp;
     public Bitmap SmallBallBmp;
-    public Canvas thiscanvas;
+    public Canvas myCanvas;
     public int counter=0;
     Paint paint;
     Path path;
@@ -46,9 +44,9 @@ public class Ball extends View {
         diff = difficult;
         System.out.println (diff);
         //////////initialize the all 3 kind of ball by size
-        thiscontext=context;
-        LargeBallBmp = BitmapFactory.decodeResource(getResources(), R.drawable.balltwo);
-        int a=LargeBallBmp.getWidth();
+        myContext =context;
+        LargeBallBmp = BitmapFactory.decodeResource(getResources(), R.drawable.ball_noob);
+        //int a=LargeBallBmp.getWidth();
         MiddleBallBmp=Bitmap.createScaledBitmap(LargeBallBmp,LargeBallBmp.getWidth()*3/4,LargeBallBmp.getHeight()*3/4,false);
         SmallBallBmp=Bitmap.createScaledBitmap(MiddleBallBmp,MiddleBallBmp.getWidth()*3/4,MiddleBallBmp.getHeight()*3/4,false);
     }
@@ -82,23 +80,23 @@ public class Ball extends View {
                 if (counter<10){
                 if (currentX>(maxX-LargeBallBmp.getWidth()))
                 {
-                    Xping = UpXping;
+                    Xping = upXping;
                 }}else if (counter >= 10 && counter < 20){
                     if (currentX > (maxX-MiddleBallBmp.getWidth()))
                     {
-                        Xping=UpXping;
+                        Xping= upXping;
                     }}else if (counter>=20) {
                     if (currentX>(maxX-SmallBallBmp.getWidth()))
                     {
-                        Xping=UpXping;
+                        Xping= upXping;
                     }
                 }
                 if (currentY<0)
                 {
-                    Yping=DownYping;
+                    Yping= downYping;
                 }if (currentX<0)
                 {
-                    Xping=DownXping;
+                    Xping= downXping;
                 }
                 if (currentY<maxY)
                 {
@@ -107,7 +105,7 @@ public class Ball extends View {
                 }else {
                     ////////////if the ball falls from the ended Y the handler is stop and send broadcast
                     Intent intent = new Intent("com.mayhematan.taptheball.HANDLER_STOP");
-                    LocalBroadcastManager.getInstance(thiscontext).sendBroadcast(intent);
+                    LocalBroadcastManager.getInstance( myContext ).sendBroadcast(intent);
                     handler.removeCallbacks(this);
                     IsInitLine=false;
 
@@ -118,8 +116,8 @@ public class Ball extends View {
                  invalidate();
             }
         };
-        Xping=DownXping;
-        Yping=DownYping;
+        Xping= downXping;
+        Yping= downYping;
         handler.postDelayed(BallFall,1);
     }
 
@@ -143,8 +141,8 @@ public class Ball extends View {
                 canvas.drawPath ( path, paint );
             }
         }
-        thiscanvas = canvas;
-        if (counter<10) {
+        myCanvas = canvas;
+        if (counter<10/diff) {
             canvas.drawBitmap(LargeBallBmp, currentX, currentY, null);
         }else if (counter < 20)
         {
