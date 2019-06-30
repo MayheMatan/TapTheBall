@@ -35,6 +35,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         TextView nameTv;
         TextView creditTv;
         ImageView ballIv;
+        TextView diffTv;
 
         public PlayerViewHolder(View itemView) {
             super(itemView);
@@ -42,6 +43,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             nameTv = itemView.findViewById(R.id.player_name);
             creditTv = itemView.findViewById(R.id.player_score);
             ballIv = itemView.findViewById(R.id.ball_img);
+            diffTv = itemView.findViewById ( R.id.diff );
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +79,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         holder.nameTv.setText(""+player.getName());
         holder.creditTv.setText(player.getScore ()+"");
         holder.ballIv.setImageBitmap(player.getPhoto());
+        holder.diffTv.setText ( ""+player.getDiff ());
     }
 
     @Override

@@ -18,9 +18,11 @@ import android.widget.Toast;
 public class ChooseActivity extends AppCompatActivity {
     Button startBtn;
     SharedPreferences preference;
-    TextView creditTv;
+    TextView creditTv, amountMedBall, amountExpBall;
     int credit;
     int ballDiff;
+    int isMedBall;
+    int isExpBall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class ChooseActivity extends AppCompatActivity {
         handler.postDelayed ( new Runnable () {
             @Override
             public void run() {
-                for (int i = 1; i < ball.length; i++) {
+                for (int i = 0; i < ball.length; i++) {
                     ball[i].startAnimation ( buttonAnim );
                 }
                 startBtn.startAnimation ( buttonAnim );
@@ -62,8 +64,18 @@ public class ChooseActivity extends AppCompatActivity {
         credit = preference.getInt ( "credit", 0 );
         creditTv.setText ( "" + getResources ().getString ( R.string.credit ) + " " + credit );
 
-        final TextView amountMedBall = findViewById ( R.id.ball_med_amount );
-        final TextView amountExpBall = findViewById ( R.id.ball_expert_amount );
+        isMedBall = preference.getInt("isMedBall",0);
+        isExpBall = preference.getInt ( "isExpBall", 0 );
+
+        amountMedBall = findViewById ( R.id.ball_med_amount );
+        amountExpBall = findViewById ( R.id.ball_expert_amount );
+
+        if (isMedBall == 1) {
+            amountMedBall.setText ( getResources ().getString ( R.string.purchased ) );
+        }
+        if (isExpBall == 1) {
+            amountExpBall.setText ( getResources ().getString ( R.string.purchased ) );
+        }
 
         ball[1].setOnClickListener ( new View.OnClickListener () {
             @Override
@@ -78,10 +90,13 @@ public class ChooseActivity extends AppCompatActivity {
                         yesBtn.setOnClickListener ( new View.OnClickListener () {
                             @Override
                             public void onClick(View v) {
+                                isMedBall = 1;
                                 credit -= 100;
-                                amountMedBall.setText ( "" + R.string.purchased );
+                                amountMedBall.setTextSize ( 12 );
+                                amountMedBall.setText (getResources ().getString ( R.string.purchased ));
                                 creditTv.setText ( "" + getResources ().getString ( R.string.credit ) + " " + credit );
                                 preference.edit ().putInt ( "credit", credit ).apply ();
+                                preference.edit ().putInt ( "isMedBall", isMedBall ).apply ();
                                 ballDiff = 1;
                                 dialog.dismiss ();
                             }
@@ -131,9 +146,11 @@ public class ChooseActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 credit -= 250;
-                                amountExpBall.setText(""+R.string.purchased);
+                                amountExpBall.setText(getResources ().getString ( R.string.purchased ));
+                                amountExpBall.setTextSize ( 12 );
                                 creditTv.setText(""+getResources().getString(R.string.credit) + " "+ credit);
                                 preference.edit ().putInt("credit", credit).apply();
+                                preference.edit ().putInt ( "isExpBall", isExpBall ).apply ();
                                 ballDiff = 2;
                                 dialog.dismiss ();
                             }
@@ -176,11 +193,8 @@ public class ChooseActivity extends AppCompatActivity {
                 intent.putExtra ("Level", difficult);
                 intent.putExtra ("Name", userName);
                 intent.putExtra ("BallDiff", ballDiff);
-                Bundle extras = new Bundle ();
-                intent.putExtras (extras);
                 startActivity (intent);
             }
         } );
-
     }
 }

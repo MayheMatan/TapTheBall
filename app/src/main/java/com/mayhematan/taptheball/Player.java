@@ -10,6 +10,16 @@ public class Player {
     String name;
     Integer score;
     Bitmap photo;
+    String diff;
+
+
+    public String getDiff() {
+        return diff;
+    }
+
+    public void setDiff(String diff) {
+        this.diff = diff;
+    }
 
     public Bitmap getPhoto() {
         return photo;
@@ -21,10 +31,11 @@ public class Player {
 
 
 
-    public Player(Bitmap photo, String name, int score) {
+    public Player(Bitmap photo, String name, int score, String diff) {
         this.name = name;
         this.score = score;
         this.photo = photo;
+        this.diff = diff;
     }
 
     public Player() {
@@ -37,6 +48,7 @@ public class Player {
         name = new String(data[0]);
         score = Integer.parseInt(data[1]);
         photo = StringToBitMap(data[2]);
+        diff = new String(data[3]);
     }
 
 
@@ -82,6 +94,6 @@ public class Player {
     }
     @Override
     public String toString() {
-        return name + ";" + score.toString() + ";" + BitMapToString(photo);
+        return name + ";" + score.toString() + ";" + BitMapToString(photo) + ";" + diff;
     }
 }

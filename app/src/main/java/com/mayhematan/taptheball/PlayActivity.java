@@ -32,6 +32,7 @@ public class PlayActivity extends AppCompatActivity {
     int maxY;
     int maxX;
     int difficult;
+    String diffToString;
     int ballDiff;
     String userName;
     Integer size;
@@ -64,6 +65,14 @@ public class PlayActivity extends AppCompatActivity {
         currentXYTV.setVisibility(View.INVISIBLE);
 
         difficult = getIntent ().getIntExtra ( "Level", 0 );
+        if (difficult == 0) {
+            diffToString = "Easy";
+        }
+        else if (difficult == 1) {
+            diffToString = "Medium";
+        }
+        else
+            diffToString = "Expert";
         ballDiff = getIntent ().getIntExtra ( "BallDiff",0 );
         userName = getIntent ().getStringExtra ( "Name" );
         frameLayout = findViewById(R.id.FullFrameLauout);
@@ -153,7 +162,7 @@ public class PlayActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = preference.edit();
                 if (ballDiff == 0) {
                     Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_noob),
-                            getIntent().getStringExtra("Name"), counter);
+                            getIntent().getStringExtra("Name"), counter, diffToString);
                     size++;
                     editor.putString(size.toString(), score.toString());
                     editor.putInt("size", size).apply();
@@ -161,7 +170,7 @@ public class PlayActivity extends AppCompatActivity {
                 }
                 else if(ballDiff == 1) {
                     Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_med),
-                            getIntent().getStringExtra("Name"), counter);
+                            getIntent().getStringExtra("Name"), counter, diffToString);
                     size++;
                     editor.putString(size.toString(), score.toString());
                     editor.putInt("size", size).apply();
@@ -169,7 +178,7 @@ public class PlayActivity extends AppCompatActivity {
                 }
                 else {
                     Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_expert),
-                            getIntent().getStringExtra("Name"), counter);
+                            getIntent().getStringExtra("Name"), counter, diffToString);
                     size++;
                     editor.putString(size.toString(), score.toString());
                     editor.putInt("size", size).apply();
@@ -179,6 +188,7 @@ public class PlayActivity extends AppCompatActivity {
                 counter = 0;
                 ball = new Ball(PlayActivity.this, difficult, ballDiff);
                 frameLayout.addView(ball);
+                startfragment = new StartFragment ();
                 getFragmentManager().beginTransaction().replace(R.id.FullFrameLauout, startfragment).commit();
             }
             else if (intent.getAction().equals("com.mayhematan.taptheball.GAME_BEGIN")) {
@@ -198,6 +208,7 @@ public class PlayActivity extends AppCompatActivity {
             else if (intent.getAction().equals("com.mayhematan.taptheball.BACK_TO_MAIN")) {
                 Intent intent1 = new Intent ( PlayActivity.this, MainActivity.class );
                 startActivity(intent1);
+                finish ();
             }
         }
     }

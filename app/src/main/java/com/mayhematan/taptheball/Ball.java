@@ -112,7 +112,7 @@ public class Ball extends View {
                     Intent intent = new Intent("com.mayhematan.taptheball.HANDLER_STOP");
                     LocalBroadcastManager.getInstance( myContext ).sendBroadcast(intent);
                     handler.removeCallbacks(this);
-                    IsInitLine=false;
+                    IsInitLine = false;
 
                 }
 
