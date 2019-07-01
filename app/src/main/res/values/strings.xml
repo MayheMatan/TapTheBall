@@ -22,10 +22,11 @@
     <string name="instructions_txt">Instructions</string>
     <string name="highScores_txt">High Scores</string>
     <string name="settings_txt">Settings</string>
-    <string name="sound_txt">Sound</string>
-    <string name="sound_fx_txt">Sound FX</string>
     <string name="instructions_full_txt">Welcome to TapTheBall the easiest game to play!. Simply press play, choose your prefered difficulty level and get ready to have some fun! Your main goal is to keep the ball in the air for as much as possible, the more you manage to keep it in the air the harded it gets, as the ball gets smaller earn credits for every time you kick the ball in the air. Use these credits to unlock new balls</string>
     <string name="enter_name">Please enter your name</string>
     <string name="name_missing">Name is missing</string>
+    <string name="sound_on">Sound: ON</string>
+    <string name="sound_off">Sound: OFF</string>
+    <string name="switch_player">Switch player</string>
 
 </resources>

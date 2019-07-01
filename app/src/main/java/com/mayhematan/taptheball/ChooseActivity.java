@@ -2,11 +2,14 @@ package com.mayhematan.taptheball;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,6 +25,8 @@ public class ChooseActivity extends AppCompatActivity {
     int ballDiff;
     int isMedBall;
     int isExpBall;
+    MediaPlayer mainSound;
+    boolean isMusicOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,5 +203,59 @@ public class ChooseActivity extends AppCompatActivity {
                 startActivity (intent);
             }
         } );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater ().inflate ( R.menu.first_menu, menu );
+        isMusicOn = preference.getBoolean ( "sound", false );
+        if (isMusicOn) {
+            MenuItem item = menu.findItem ( R.id.sound );
+            item.setTitle ( getResources ().getString ( R.string.sound_on ) );
+        }
+        else {
+            MenuItem item = menu.findItem ( R.id.sound );
+            item.setTitle ( getResources ().getString ( R.string.sound_off ) );
+        }
+        return super.onCreateOptionsMenu ( menu );
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId ();
+        switch (id) {
+            case R.id.sound: {
+                if (item.getTitle ().toString () == getResources ().getString ( R.string.sound_on )) {
+                    item.setTitle ( getResources ().getString ( R.string.sound_off ) );
+                    mainSound.stop ();
+                    preference.edit ().putBoolean ( "sound", false ).apply ();
+                } else {
+                    item.setTitle ( getResources ().getString ( R.string.sound_on ) );
+                    mainSound.release ();
+                    mainSound = MediaPlayer.create ( ChooseActivity.this, R.raw.jungle );
+                    mainSound.start ();
+                    preference.edit ().putBoolean ( "sound", true ).apply ();
+                }
+            }
+            case R.id.instructions: {
+                AlertDialog.Builder builder = new AlertDialog.Builder (  ChooseActivity.this, R.style.CustomAlertDialog );
+                View dialogView = getLayoutInflater ().inflate ( R.layout.name_missing_dialog, null );
+                builder.setView ( dialogView ).setCancelable ( false );
+                final AlertDialog dialog = builder.show ();
+                Button backBtn = dialogView.findViewById ( R.id.back_btn );
+                backBtn.setOnClickListener ( new View.OnClickListener () {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss ();
+                    }
+                } );
+            }
+            case R.id.switch_player: {
+                Intent intent = new Intent ( ChooseActivity.this, MainActivity.class );
+                intent.putExtra ( "Name", "" );
+                startActivity(intent);
+            }
+        }
+        return super.onOptionsItemSelected ( item );
     }
 }

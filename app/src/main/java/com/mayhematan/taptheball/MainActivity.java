@@ -2,26 +2,35 @@ package com.mayhematan.taptheball;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     String userName;
     int diff;
+    MediaPlayer mainSound;
+    SharedPreferences preference;
+    boolean isMusicOn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView ( R.layout.activity_main);
+        mainSound = MediaPlayer.create ( MainActivity.this, R.raw.jungle );
 
         final Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_in);
         final Animation buttonAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_anim);
@@ -102,5 +111,55 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater ().inflate ( R.menu.first_menu, menu );
+        preference = PreferenceManager.getDefaultSharedPreferences( MainActivity.this);
+        isMusicOn = preference.getBoolean ( "sound", false );
+        if (isMusicOn) {
+            MenuItem item = menu.findItem ( R.id.sound );
+            item.setTitle ( getResources ().getString ( R.string.sound_on ) );
+        }
+        else {
+            MenuItem item = menu.findItem ( R.id.sound );
+            item.setTitle ( getResources ().getString ( R.string.sound_off ) );
+        }
+        return super.onCreateOptionsMenu ( menu );
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId ();
+        switch (id) {
+            case R.id.sound: {
+                if (item.getTitle ().toString () == getResources ().getString ( R.string.sound_on )) {
+                    item.setTitle ( getResources ().getString ( R.string.sound_off ) );
+                    mainSound.stop ();
+                    preference.edit ().putBoolean ( "sound", false ).apply ();
+                } else {
+                    item.setTitle ( getResources ().getString ( R.string.sound_on ) );
+                    mainSound.release ();
+                    mainSound = MediaPlayer.create ( MainActivity.this, R.raw.jungle );
+                    mainSound.start ();
+                    preference.edit ().putBoolean ( "sound", true ).apply ();
+                }
+            }
+            case R.id.instructions: {
+                AlertDialog.Builder builder = new AlertDialog.Builder ( MainActivity.this, R.style.CustomAlertDialog );
+                View dialogView = getLayoutInflater ().inflate ( R.layout.name_missing_dialog, null );
+                builder.setView ( dialogView ).setCancelable ( false );
+                final AlertDialog dialog = builder.show ();
+                Button backBtn = dialogView.findViewById ( R.id.back_btn );
+                backBtn.setOnClickListener ( new View.OnClickListener () {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss ();
+                    }
+                } );
+            }
+        }
+        return super.onOptionsItemSelected ( item );
     }
 }

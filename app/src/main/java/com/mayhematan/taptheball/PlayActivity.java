@@ -37,7 +37,7 @@ public class PlayActivity extends AppCompatActivity {
     int ballDiff;
     String userName;
     Integer size;
-    MediaPlayer kickSound, gameOverSound;
+    MediaPlayer kickSound, gameOverSound, mainSound;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -47,6 +47,7 @@ public class PlayActivity extends AppCompatActivity {
 
         kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
         gameOverSound = MediaPlayer.create( PlayActivity.this, R.raw.game_over);
+        mainSound = MediaPlayer.create ( PlayActivity.this, R.raw.jungle );
 
         /////////get device display data
         Display mdisp = getWindowManager().getDefaultDisplay();
