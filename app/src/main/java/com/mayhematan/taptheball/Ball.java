@@ -8,7 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.media.MediaPlayer;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
@@ -17,26 +19,26 @@ import android.view.View;
 
 public class Ball extends View {
 
-    public Bitmap LargeBallBmp;
-    public float currentY=0;
-    public float currentX=290;
+    public Bitmap largeBallBmp;
+    public float currentY = 0;
+    public float currentX = 290;
     Handler handler;
-    public float downYping =18;
-    public float downXping =18;
-    public float upXping =-18;
-    public float upYping =-18;
-    float Yping= downYping;
-    float Xping= downXping;
+    public float downYping = 18;
+    public float downXping = 18;
+    public float upXping = -18;
+    public float upYping = -18;
+    float yPing = downYping;
+    float xPing = downXping;
     Context myContext;
-    public Bitmap MiddleBallBmp;
-    public Bitmap SmallBallBmp;
+    public Bitmap middleBallBmp;
+    public Bitmap smallBallBmp;
     public Canvas myCanvas;
-    public int counter=0;
+    public int counter =0 ;
     Paint paint;
     Path path;
-    boolean IsInitLine=false;
-    public  int maxX=0;
-    public int maxY=0;
+    boolean isInitLine = false;
+    public  int maxX = 0;
+    public int maxY = 0;
     public int diff;
 
     public Ball(Context context, int difficult, int ballDiff) {
@@ -45,15 +47,15 @@ public class Ball extends View {
         //////////initialize the all 3 kind of ball by size
         myContext = context;
         if (ballDiff == 0) {
-                LargeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_noob );
+                largeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_noob );
         }
         else if (ballDiff == 1){
-            LargeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_med );
+            largeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_med );
         }
         else
-            LargeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_expert );
-        MiddleBallBmp = Bitmap.createScaledBitmap ( LargeBallBmp, LargeBallBmp.getWidth () * 3 / 4, LargeBallBmp.getHeight () * 3 / 4, false );
-        SmallBallBmp = Bitmap.createScaledBitmap ( MiddleBallBmp, MiddleBallBmp.getWidth () * 3 / 4, MiddleBallBmp.getHeight () * 3 / 4, false );
+            largeBallBmp = BitmapFactory.decodeResource ( getResources (), R.drawable.ball_expert );
+        middleBallBmp = Bitmap.createScaledBitmap ( largeBallBmp, largeBallBmp.getWidth () * 3 / 4, largeBallBmp.getHeight () * 3 / 4, false );
+        smallBallBmp = Bitmap.createScaledBitmap ( middleBallBmp, middleBallBmp.getWidth () * 3 / 4, middleBallBmp.getHeight () * 3 / 4, false );
     }
 
     public Ball(Context context, @Nullable AttributeSet attrs) {
@@ -64,7 +66,7 @@ public class Ball extends View {
     }
     public void InitializeLine(){
         ////////////set the limit line that the user can touch the ball
-        IsInitLine=true;
+        isInitLine =true;
         paint= new Paint();
         paint.setColor(Color.RED);
         paint.setStrokeWidth(10);
@@ -79,29 +81,28 @@ public class Ball extends View {
         final Runnable BallFall = new Runnable() {
             @Override
             public void run() {
-
-                currentY=currentY+Yping;
-                currentX=currentX+Xping;
+                currentY=currentY+ yPing;
+                currentX=currentX+ xPing;
                 if (counter<10){
-                    if (currentX>(maxX-LargeBallBmp.getWidth()))
+                    if (currentX>(maxX- largeBallBmp.getWidth()))
                     {
-                        Xping = upXping;
+                        xPing = upXping;
                     }}else if (counter >= 10 && counter < 20){
-                    if (currentX > (maxX-MiddleBallBmp.getWidth()))
+                    if (currentX > (maxX- middleBallBmp.getWidth()))
                     {
-                        Xping= upXping;
+                        xPing = upXping;
                     }}else if (counter>=20) {
-                    if (currentX>(maxX-SmallBallBmp.getWidth()))
+                    if (currentX>(maxX- smallBallBmp.getWidth()))
                     {
-                        Xping= upXping;
+                        xPing = upXping;
                     }
                 }
                 if (currentY<0)
                 {
-                    Yping= downYping;
+                    yPing = downYping;
                 }if (currentX<0)
                 {
-                    Xping= downXping;
+                    xPing = downXping;
                 }
                 if (currentY<maxY)
                 {
@@ -112,7 +113,7 @@ public class Ball extends View {
                     Intent intent = new Intent("com.mayhematan.taptheball.HANDLER_STOP");
                     LocalBroadcastManager.getInstance( myContext ).sendBroadcast(intent);
                     handler.removeCallbacks(this);
-                    IsInitLine = false;
+                    isInitLine = false;
 
                 }
 
@@ -121,15 +122,15 @@ public class Ball extends View {
                  invalidate();
             }
         };
-        Xping= downXping;
-        Yping= downYping;
+        xPing = downXping;
+        yPing = downYping;
         handler.postDelayed(BallFall,1);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         ////////////draw the custom ball view all the time that the handler is running
-        if (IsInitLine) {
+        if (isInitLine) {
             if (diff == 1) {
                 path.moveTo ( 0, (float) (maxY / 2) );
                 path.lineTo ( maxX, (float) (maxY / 2) );
@@ -148,15 +149,12 @@ public class Ball extends View {
         }
         myCanvas = canvas;
         if (counter<10/diff) {
-            canvas.drawBitmap(LargeBallBmp, currentX, currentY, null);
+            canvas.drawBitmap( largeBallBmp, currentX, currentY, null);
         }else if (counter < 20)
         {
-            canvas.drawBitmap(MiddleBallBmp, currentX, currentY, null);
+            canvas.drawBitmap( middleBallBmp, currentX, currentY, null);
         }else {
-            canvas.drawBitmap(SmallBallBmp, currentX, currentY, null);
+            canvas.drawBitmap( smallBallBmp, currentX, currentY, null);
         }
-
     }
-
-
 }

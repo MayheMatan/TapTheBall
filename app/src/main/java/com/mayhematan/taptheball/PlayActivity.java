@@ -18,7 +18,6 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -38,7 +37,7 @@ public class PlayActivity extends AppCompatActivity {
     int ballDiff;
     String userName;
     Integer size;
-    MediaPlayer kickSound;
+    MediaPlayer kickSound, gameOverSound;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -47,6 +46,7 @@ public class PlayActivity extends AppCompatActivity {
         setContentView( R.layout.activity_play);
 
         kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
+        gameOverSound = MediaPlayer.create( PlayActivity.this, R.raw.game_over);
 
         /////////get device display data
         Display mdisp = getWindowManager().getDefaultDisplay();
@@ -94,22 +94,22 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (event.getY() >= (maxY / 2) && ball.downYping == ball.Yping) {
+                    if (event.getY() >= (maxY / 2) && ball.downYping == ball.yPing) {
 
 
                         ////////////while the user touch the ball limits the view goes up
                         if (counter < 10/difficult) {
-                            if ((event.getY() - ball.currentY) < ball.LargeBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
+                            if ((event.getY() - ball.currentY) < ball.largeBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
                                 float a = event.getX() - ball.currentX;
-                                float b = ball.LargeBallBmp.getWidth();
+                                float b = ball.largeBallBmp.getWidth();
                                 float sum = b - a;
-                                if ((event.getX() - ball.currentX) < ball.LargeBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
-                                    if (sum >= ball.LargeBallBmp.getWidth() / 2) {
-                                        ball.Xping = ball.downXping;
+                                if ((event.getX() - ball.currentX) < ball.largeBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
+                                    if (sum >= ball.largeBallBmp.getWidth() / 2) {
+                                        ball.xPing = ball.downXping;
                                     } else {
-                                        ball.Xping = ball.upXping;
+                                        ball.xPing = ball.upXping;
                                     }
-                                    ball.Yping = ball.upYping;
+                                    ball.yPing = ball.upYping;
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
@@ -128,28 +128,28 @@ public class PlayActivity extends AppCompatActivity {
 
                             ///////////minimize the ball radius
                         } else if (counter >= 10/difficult && counter < 20/difficult) {
-                            if ((event.getY() - ball.currentY) < ball.MiddleBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
-                                if ((event.getX() - ball.currentX) < ball.MiddleBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
-                                    if (ball.MiddleBallBmp.getWidth() / 2 > (event.getX() - ball.currentX)) {
-                                        ball.Xping = ball.downXping;
+                            if ((event.getY() - ball.currentY) < ball.middleBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
+                                if ((event.getX() - ball.currentX) < ball.middleBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
+                                    if (ball.middleBallBmp.getWidth() / 2 > (event.getX() - ball.currentX)) {
+                                        ball.xPing = ball.downXping;
                                     } else {
-                                        ball.Xping = ball.upXping;
+                                        ball.xPing = ball.upXping;
                                     }
-                                    ball.Yping = ball.upYping;
+                                    ball.yPing = ball.upYping;
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
                                 }
                             }
                         } else if (counter >= 20/difficult) {
-                            if ((event.getY() - ball.currentY) < ball.SmallBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
-                                if ((event.getX() - ball.currentX) < ball.SmallBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
-                                    if (ball.SmallBallBmp.getWidth() / 2 >= (event.getX() - ball.currentX)) {
-                                        ball.Xping = ball.downXping;
+                            if ((event.getY() - ball.currentY) < ball.smallBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
+                                if ((event.getX() - ball.currentX) < ball.smallBallBmp.getWidth() && (event.getX() - ball.currentX) > 0) {
+                                    if (ball.smallBallBmp.getWidth() / 2 >= (event.getX() - ball.currentX)) {
+                                        ball.xPing = ball.downXping;
                                     } else {
-                                        ball.Xping = ball.upXping;
+                                        ball.xPing = ball.upXping;
                                     }
-                                    ball.Yping = ball.upYping;
+                                    ball.yPing = ball.upYping;
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
@@ -170,6 +170,14 @@ public class PlayActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("com.mayhematan.taptheball.HANDLER_STOP")) {
+                //////////Playing game over sound
+                try {
+                    if (gameOverSound.isPlaying()) {
+                        gameOverSound.stop();
+                        gameOverSound.release();
+                        gameOverSound = MediaPlayer.create( PlayActivity.this, R.raw.game_over);
+                    } gameOverSound.start();
+                } catch(Exception e) { e.printStackTrace(); }
                 //////////if the current turn of game stop and the user fail
                 size = preference.getInt ( "size", 0 );
                 int top = preference.getInt("top score", counter);
@@ -180,29 +188,31 @@ public class PlayActivity extends AppCompatActivity {
                     preference.edit().putInt("top score", counter).apply();
                 }
                 SharedPreferences.Editor editor = preference.edit();
-                if (ballDiff == 0) {
-                    Player score = new Player (BitmapFactory.decodeResource(getResources(), R.drawable.ball_noob),
-                            getIntent().getStringExtra("Name"), counter, diffToString);
-                    size++;
-                    editor.putString(size.toString(), score.toString());
-                    editor.putInt("size", size).apply();
-                    editor.commit ();
-                }
-                else if(ballDiff == 1) {
-                    Player score = new Player (BitmapFactory.decodeResource(getResources(), R.drawable.ball_med),
-                            getIntent().getStringExtra("Name"), counter, diffToString);
-                    size++;
-                    editor.putString(size.toString(), score.toString());
-                    editor.putInt("size", size).apply();
-                    editor.commit ();
-                }
-                else {
-                    Player score = new Player (BitmapFactory.decodeResource(getResources(), R.drawable.ball_expert),
-                            getIntent().getStringExtra("Name"), counter, diffToString);
-                    size++;
-                    editor.putString(size.toString(), score.toString());
-                    editor.putInt("size", size).apply();
-                    editor.commit ();
+                switch (ballDiff) {
+                    case 0: {
+                        Player score = new Player ( BitmapFactory.decodeResource ( getResources (), R.drawable.ball_noob ),
+                                getIntent ().getStringExtra ( "Name" ), counter, diffToString );
+                        size++;
+                        editor.putString ( size.toString (), score.toString () );
+                        editor.putInt ( "size", size ).apply ();
+                        editor.commit ();
+                    }
+                    case 1: {
+                        Player score = new Player ( BitmapFactory.decodeResource ( getResources (), R.drawable.ball_med ),
+                                getIntent ().getStringExtra ( "Name" ), counter, diffToString );
+                        size++;
+                        editor.putString ( size.toString (), score.toString () );
+                        editor.putInt ( "size", size ).apply ();
+                        editor.commit ();
+                    }
+                    case 2: {
+                        Player score = new Player ( BitmapFactory.decodeResource ( getResources (), R.drawable.ball_expert ),
+                                getIntent ().getStringExtra ( "Name" ), counter, diffToString );
+                        size++;
+                        editor.putString ( size.toString (), score.toString () );
+                        editor.putInt ( "size", size ).apply ();
+                        editor.commit ();
+                    }
                 }
                 currentXYTV.setText("0");
                 counter = 0;

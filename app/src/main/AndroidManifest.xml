@@ -18,15 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
+        <activity android:name=".FirstActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".PlayActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ChooseActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".LeaderBoardActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".InstructionsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FirstActivity"
+        <activity android:name=".GifActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
