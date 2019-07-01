@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ChooseActivity extends AppCompatActivity {
     Button startBtn;
@@ -72,9 +71,11 @@ public class ChooseActivity extends AppCompatActivity {
 
         if (isMedBall == 1) {
             amountMedBall.setText ( getResources ().getString ( R.string.purchased ) );
+            amountMedBall.setTextSize ( 20 );
         }
         if (isExpBall == 1) {
             amountExpBall.setText ( getResources ().getString ( R.string.purchased ) );
+            amountExpBall.setTextSize ( 20 );
         }
 
         ball[1].setOnClickListener ( new View.OnClickListener () {
@@ -92,7 +93,7 @@ public class ChooseActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 isMedBall = 1;
                                 credit -= 100;
-                                amountMedBall.setTextSize ( 12 );
+                                amountMedBall.setTextSize ( 20 );
                                 amountMedBall.setText (getResources ().getString ( R.string.purchased ));
                                 creditTv.setText ( "" + getResources ().getString ( R.string.credit ) + " " + credit );
                                 preference.edit ().putInt ( "credit", credit ).apply ();
@@ -137,18 +138,19 @@ public class ChooseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (amountExpBall.getText().toString().equals ("250")) {
                     if(credit >= 250) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseActivity.this, R.style.CustomAlertDialog);
-                        View dialogView = getLayoutInflater().inflate(R.layout.purchese_dialog, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder( ChooseActivity.this, R.style.CustomAlertDialog);
+                        View dialogView = getLayoutInflater().inflate( R.layout.purchese_dialog, null);
                         builder.setView(dialogView).setCancelable(false);
                         final AlertDialog dialog = builder.show();
                         Button yesBtn = dialogView.findViewById ( R.id.yes );
                         yesBtn.setOnClickListener ( new View.OnClickListener () {
                             @Override
                             public void onClick(View v) {
+                                isExpBall = 1;
                                 credit -= 250;
                                 amountExpBall.setText(getResources ().getString ( R.string.purchased ));
-                                amountExpBall.setTextSize ( 12 );
-                                creditTv.setText(""+getResources().getString(R.string.credit) + " "+ credit);
+                                amountExpBall.setTextSize ( 20 );
+                                creditTv.setText(""+getResources().getString( R.string.credit) + " "+ credit);
                                 preference.edit ().putInt("credit", credit).apply();
                                 preference.edit ().putInt ( "isExpBall", isExpBall ).apply ();
                                 ballDiff = 2;
@@ -167,8 +169,8 @@ public class ChooseActivity extends AppCompatActivity {
                         noBtn.startAnimation ( animation );
                     }
                     else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseActivity.this, R.style.CustomAlertDialog);
-                        View dialogView = getLayoutInflater().inflate(R.layout.no_funds_dialog, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder( ChooseActivity.this, R.style.CustomAlertDialog);
+                        View dialogView = getLayoutInflater().inflate( R.layout.no_funds_dialog, null);
                         builder.setView(dialogView).setCancelable(false);
                         final AlertDialog dialog = builder.show();
                         Button backBtn = dialogView.findViewById ( R.id.back );
@@ -189,7 +191,7 @@ public class ChooseActivity extends AppCompatActivity {
         startBtn.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (ChooseActivity.this, PlayActivity.class);
+                Intent intent = new Intent ( ChooseActivity.this, PlayActivity.class);
                 intent.putExtra ("Level", difficult);
                 intent.putExtra ("Name", userName);
                 intent.putExtra ("BallDiff", ballDiff);

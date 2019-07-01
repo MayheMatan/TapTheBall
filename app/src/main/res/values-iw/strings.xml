@@ -19,4 +19,13 @@
     <string name="back">חזרה</string>
     <string name="back_to_main">חזרה לתפריט</string>
     <string name="leader_board">טבלת שיאים:</string>
+    <string name="highScores_txt">טבלת שיאים</string>
+    <string name="instructions_txt">הוראות</string>
+    <string name="play_txt">שחק</string>
+    <string name="settings_txt">הגדרות</string>
+    <string name="sound_txt">מוזיקה</string>
+    <string name="sound_fx_txt">צלילים</string>
+    <string name="instructions_full_txt">" ברוכים הבאים ל-TapTheBall המשחק הפשוט ביותר להבנה!  לחצו על שחק, בחרו את רמת הקושי המועדפת עליכם והתכוננו להנות!  המטרה העיקרית שלכם היא להחזיק את הכדור כמה שיותר זמן באויר, ככול שתצליחו לבעוט בכדור יותר פעמים - תצברו יותר נקודות. תוכלו להשתמש בנקודות אלו כדי לקנות כדורים חדשים ומגניבים"</string>
+    <string name="enter_name">אנא הכנס שם</string>
+    <string name="name_missing">חסר שם משתמש</string>
 </resources>

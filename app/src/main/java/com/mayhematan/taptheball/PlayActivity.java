@@ -9,14 +9,16 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -36,19 +38,23 @@ public class PlayActivity extends AppCompatActivity {
     int ballDiff;
     String userName;
     Integer size;
+    MediaPlayer kickSound;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play);
+        setContentView( R.layout.activity_play);
 
-        /////////get device dis[lay data
+        kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
+
+        /////////get device display data
         Display mdisp = getWindowManager().getDefaultDisplay();
         Point mdispSize = new Point();
         mdisp.getSize(mdispSize);
         maxX = mdispSize.x;
         maxY = mdispSize.y;
+
         ////////////listening to Broadcast
         IntentFilter handlerFilter = new IntentFilter("com.mayhematan.taptheball.HANDLER_STOP");
         IntentFilter startFilter = new IntentFilter("com.mayhematan.taptheball.GAME_BEGIN");
@@ -58,10 +64,10 @@ public class PlayActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(hendlerListener, startFilter);
         LocalBroadcastManager.getInstance(this).registerReceiver(hendlerListener, backToMainFilter);
         ////////////get the high score from preference
-        preference = PreferenceManager.getDefaultSharedPreferences(PlayActivity.this);
-        startfragment = new StartFragment();
-        getFragmentManager().beginTransaction().replace(R.id.FullFrameLauout, startfragment).commit();
-        currentXYTV = findViewById(R.id.currentXYTV);
+        preference = PreferenceManager.getDefaultSharedPreferences( PlayActivity.this);
+        startfragment = new StartFragment ();
+        getFragmentManager().beginTransaction().replace( R.id.FullFrameLayout, startfragment).commit();
+        currentXYTV = findViewById( R.id.currentXYTV);
         currentXYTV.setVisibility(View.INVISIBLE);
 
         difficult = getIntent ().getIntExtra ( "Level", 0 );
@@ -75,23 +81,24 @@ public class PlayActivity extends AppCompatActivity {
             diffToString = "Expert";
         ballDiff = getIntent ().getIntExtra ( "BallDiff",0 );
         userName = getIntent ().getStringExtra ( "Name" );
-        frameLayout = findViewById(R.id.FullFrameLauout);
+        frameLayout = findViewById( R.id.FullFrameLayout);
         /////////////initialize the random field
-        Drawable fields[] = {getDrawable(R.drawable.noob_field),
-                             getDrawable(R.drawable.med_field),
-                             getDrawable(R.drawable.expert_field)};
+        Drawable fields[] = {getDrawable( R.drawable.noob_field),
+                             getDrawable( R.drawable.med_field),
+                             getDrawable( R.drawable.expert_field)};
         frameLayout.setBackground(fields[new Random().nextInt(fields.length)]);
         /////////////declare the custom ball view
-        ball = new Ball(PlayActivity.this, difficult, ballDiff);
+        ball = new Ball ( PlayActivity.this, difficult, ballDiff);
         frameLayout.addView ( ball );
         ball.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (event.getY() >= (maxY / 2) && ball.downYping == ball.Yping) {
+
+
                         ////////////while the user touch the ball limits the view goes up
                         if (counter < 10/difficult) {
-                            System.out.println ("2- "+difficult);
                             if ((event.getY() - ball.currentY) < ball.LargeBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
                                 float a = event.getX() - ball.currentX;
                                 float b = ball.LargeBallBmp.getWidth();
@@ -106,8 +113,19 @@ public class PlayActivity extends AppCompatActivity {
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
+
+                                    //play sound
+                                    try { // also plays when ball drops
+                                        if (kickSound.isPlaying()) {
+                                            kickSound.stop();
+                                            kickSound.release();
+                                            kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
+                                        } kickSound.start();
+                                    } catch(Exception e) { e.printStackTrace(); }
+
                                 }
                             }
+
                             ///////////minimize the ball radius
                         } else if (counter >= 10/difficult && counter < 20/difficult) {
                             if ((event.getY() - ball.currentY) < ball.MiddleBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
@@ -139,6 +157,8 @@ public class PlayActivity extends AppCompatActivity {
                             }
                         }
                     }
+
+
                 }
                 return true;
             }
@@ -161,7 +181,7 @@ public class PlayActivity extends AppCompatActivity {
                 }
                 SharedPreferences.Editor editor = preference.edit();
                 if (ballDiff == 0) {
-                    Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_noob),
+                    Player score = new Player (BitmapFactory.decodeResource(getResources(), R.drawable.ball_noob),
                             getIntent().getStringExtra("Name"), counter, diffToString);
                     size++;
                     editor.putString(size.toString(), score.toString());
@@ -169,7 +189,7 @@ public class PlayActivity extends AppCompatActivity {
                     editor.commit ();
                 }
                 else if(ballDiff == 1) {
-                    Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_med),
+                    Player score = new Player (BitmapFactory.decodeResource(getResources(), R.drawable.ball_med),
                             getIntent().getStringExtra("Name"), counter, diffToString);
                     size++;
                     editor.putString(size.toString(), score.toString());
@@ -177,7 +197,7 @@ public class PlayActivity extends AppCompatActivity {
                     editor.commit ();
                 }
                 else {
-                    Player score = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ball_expert),
+                    Player score = new Player (BitmapFactory.decodeResource(getResources(), R.drawable.ball_expert),
                             getIntent().getStringExtra("Name"), counter, diffToString);
                     size++;
                     editor.putString(size.toString(), score.toString());
@@ -186,10 +206,10 @@ public class PlayActivity extends AppCompatActivity {
                 }
                 currentXYTV.setText("0");
                 counter = 0;
-                ball = new Ball(PlayActivity.this, difficult, ballDiff);
+                ball = new Ball ( PlayActivity.this, difficult, ballDiff);
                 frameLayout.addView(ball);
                 startfragment = new StartFragment ();
-                getFragmentManager().beginTransaction().replace(R.id.FullFrameLauout, startfragment).commit();
+                getFragmentManager().beginTransaction().replace( R.id.FullFrameLayout, startfragment).commit();
             }
             else if (intent.getAction().equals("com.mayhematan.taptheball.GAME_BEGIN")) {
                 ////////////initialize the custom ball view to start another turn
@@ -207,6 +227,8 @@ public class PlayActivity extends AppCompatActivity {
             }
             else if (intent.getAction().equals("com.mayhematan.taptheball.BACK_TO_MAIN")) {
                 Intent intent1 = new Intent ( PlayActivity.this, MainActivity.class );
+                String name = getIntent ().getStringExtra ( "Name" );
+                intent1.putExtra ( "Name", name );
                 startActivity(intent1);
                 finish ();
             }

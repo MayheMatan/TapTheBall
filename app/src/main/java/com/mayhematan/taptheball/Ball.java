@@ -83,10 +83,10 @@ public class Ball extends View {
                 currentY=currentY+Yping;
                 currentX=currentX+Xping;
                 if (counter<10){
-                if (currentX>(maxX-LargeBallBmp.getWidth()))
-                {
-                    Xping = upXping;
-                }}else if (counter >= 10 && counter < 20){
+                    if (currentX>(maxX-LargeBallBmp.getWidth()))
+                    {
+                        Xping = upXping;
+                    }}else if (counter >= 10 && counter < 20){
                     if (currentX > (maxX-MiddleBallBmp.getWidth()))
                     {
                         Xping= upXping;

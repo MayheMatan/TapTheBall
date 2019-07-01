@@ -55,5 +55,6 @@
         android:background="@drawable/fragment_background"
         android:gravity="center"
         android:text="@string/back_to_main"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:fontFamily="casual"/>
 </LinearLayout>

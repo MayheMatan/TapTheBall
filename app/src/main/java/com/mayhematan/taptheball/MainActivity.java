@@ -4,12 +4,14 @@ package com.mayhematan.taptheball;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,20 +21,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_main);
+        setContentView ( R.layout.activity_main);
 
         final Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_in);
         final Animation buttonAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_anim);
+        final Animation slideRight = AnimationUtils.loadAnimation ( getApplicationContext (),R.anim.slide_in_right );
 
 
-        final EditText nameEt = findViewById(R.id.nameEt);
+        final EditText nameEt = findViewById( R.id.nameEt);
         final Button leaderBoard = findViewById ( R.id.leader );
-        userName = nameEt.getText().toString();
-
+        final TextView appName = findViewById ( R.id.app_nameTv );
+        appName.startAnimation(slideRight);
+        appName.animate().rotationY(360).setDuration(2500);
+        userName = getIntent ().getStringExtra ( "Name");
+        nameEt.setText ( userName );
         final Button difficulty[] = {
-                findViewById(R.id.easy_btn),
-                findViewById(R.id.medium_btn),
-                findViewById(R.id.hard_btn)
+                findViewById( R.id.easy_btn),
+                findViewById( R.id.medium_btn),
+                findViewById( R.id.hard_btn)
         };
 
         for (int i = 0; i < 3; i++) {
@@ -80,8 +86,19 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtras ( extras );
                             startActivity ( intent );
                         }
-                        else
-                            Toast.makeText ( MainActivity.this, "Enter name first", Toast.LENGTH_SHORT ).show ();
+                        else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder ( MainActivity.this, R.style.CustomAlertDialog );
+                            View dialogView = getLayoutInflater ().inflate ( R.layout.name_missing_dialog, null );
+                            builder.setView ( dialogView ).setCancelable ( false );
+                            final AlertDialog dialog = builder.show ();
+                            Button backBtn = dialogView.findViewById ( R.id.back_missing );
+                            backBtn.setOnClickListener ( new View.OnClickListener () {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss ();
+                                }
+                            } );
+                        }
                     }
                 });
             }

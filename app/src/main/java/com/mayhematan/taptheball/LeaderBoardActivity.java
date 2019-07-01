@@ -2,10 +2,8 @@ package com.mayhematan.taptheball;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +12,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class LeaderBoardActivity extends AppCompatActivity {
     ArrayList<Player> playerInfoList;
@@ -31,23 +31,26 @@ public class LeaderBoardActivity extends AppCompatActivity {
         preference = PreferenceManager.getDefaultSharedPreferences ( LeaderBoardActivity.this );
         playerInfoList = new ArrayList<> ();
         size = preference.getInt ( "size", 0 );
-        for (Integer i = 1; i <= size; i++) {
-            String tmp = preference.getString ( i.toString (), "" );
+        for (Integer playerInfo = 1; playerInfo <= size; playerInfo++) {
+            String tmp = preference.getString ( playerInfo.toString (), "" );
             if (!tmp.equals ( "" )) {
                 Player player = new Player ( tmp );
-                System.out.println (player.getName ());
-                if (player.getPhoto () == null) {
-                    SharedPreferences lastUser = this.getSharedPreferences ( "lastUser", this.MODE_PRIVATE );
-                    Bitmap bitmap = new Player ().StringToBitMap ( lastUser.getString ( "Photo", "-1" ) );
-                }
                 playerInfoList.add ( player );
             }
         }
+        Collections.sort ( playerInfoList, new Comparator<Player> () {
+            @Override
+            public int compare(Player o1, Player o2) {
+                int score1 = o1.getScore ();
+                int score2 = o2.getScore ();
+                return score2-score1;
+            }
+        } );
         final PlayerAdapter playerAdapter = new PlayerAdapter (playerInfoList);
         playerAdapter.setListener(new PlayerAdapter.MyPlayerListener() {
             @Override
             public void onPlayerClicked(int position, View view) {
-                Toast.makeText(LeaderBoardActivity.this, playerInfoList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText( LeaderBoardActivity.this, playerInfoList.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -69,9 +72,9 @@ public class LeaderBoardActivity extends AppCompatActivity {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
 
                 if(direction==ItemTouchHelper.RIGHT)
-                    Toast.makeText(LeaderBoardActivity.this, "Right", Toast.LENGTH_SHORT).show();
+                    Toast.makeText( LeaderBoardActivity.this, "Right", Toast.LENGTH_SHORT).show();
                 else if(direction==ItemTouchHelper.LEFT)
-                    Toast.makeText(LeaderBoardActivity.this, "Left", Toast.LENGTH_SHORT).show();
+                    Toast.makeText( LeaderBoardActivity.this, "Left", Toast.LENGTH_SHORT).show();
 
                 playerInfoList.remove(viewHolder.getAdapterPosition());
                 playerAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
