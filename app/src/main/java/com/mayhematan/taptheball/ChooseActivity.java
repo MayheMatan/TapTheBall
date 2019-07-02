@@ -32,7 +32,7 @@ public class ChooseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_choose );
-
+        mainSound = MediaPlayer.create ( ChooseActivity.this, R.raw.jungle );
         preference = PreferenceManager.getDefaultSharedPreferences ( ChooseActivity.this );
         ballDiff = 0;
 
@@ -208,6 +208,7 @@ public class ChooseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater ().inflate ( R.menu.choose_menu, menu );
+        preference = PreferenceManager.getDefaultSharedPreferences( ChooseActivity.this);
         isMusicOn = preference.getBoolean ( "sound", false );
         if (isMusicOn) {
             MenuItem item = menu.findItem ( R.id.sound );
@@ -236,6 +237,7 @@ public class ChooseActivity extends AppCompatActivity {
                     mainSound.start ();
                     preference.edit ().putBoolean ( "sound", true ).apply ();
                 }
+                break;
             }
             case R.id.instructions: {
                 AlertDialog.Builder builder = new AlertDialog.Builder (  ChooseActivity.this, R.style.CustomAlertDialog );
@@ -249,11 +251,13 @@ public class ChooseActivity extends AppCompatActivity {
                         dialog.dismiss ();
                     }
                 } );
+                break;
             }
             case R.id.switch_player: {
                 Intent intent = new Intent ( ChooseActivity.this, MainActivity.class );
                 intent.putExtra ( "Name", "" );
                 startActivity(intent);
+                break;
             }
         }
         return super.onOptionsItemSelected ( item );

@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     mainSound.start ();
                     preference.edit ().putBoolean ( "sound", true ).apply ();
                 }
+                break;
             }
             case R.id.instructions: {
                 AlertDialog.Builder builder = new AlertDialog.Builder ( MainActivity.this, R.style.CustomAlertDialog );
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss ();
                     }
                 } );
+                break;
             }
         }
         return super.onOptionsItemSelected ( item );

@@ -197,6 +197,7 @@ public class PlayActivity extends AppCompatActivity {
                         editor.putString ( size.toString (), score.toString () );
                         editor.putInt ( "size", size ).apply ();
                         editor.commit ();
+                        break;
                     }
                     case 1: {
                         Player score = new Player ( BitmapFactory.decodeResource ( getResources (), R.drawable.ball_med ),
@@ -205,6 +206,7 @@ public class PlayActivity extends AppCompatActivity {
                         editor.putString ( size.toString (), score.toString () );
                         editor.putInt ( "size", size ).apply ();
                         editor.commit ();
+                        break;
                     }
                     case 2: {
                         Player score = new Player ( BitmapFactory.decodeResource ( getResources (), R.drawable.ball_expert ),
@@ -213,6 +215,7 @@ public class PlayActivity extends AppCompatActivity {
                         editor.putString ( size.toString (), score.toString () );
                         editor.putInt ( "size", size ).apply ();
                         editor.commit ();
+                        break;
                     }
                 }
                 currentXYTV.setText("0");
