@@ -207,7 +207,7 @@ public class ChooseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater ().inflate ( R.menu.first_menu, menu );
+        getMenuInflater ().inflate ( R.menu.choose_menu, menu );
         isMusicOn = preference.getBoolean ( "sound", false );
         if (isMusicOn) {
             MenuItem item = menu.findItem ( R.id.sound );
@@ -239,7 +239,7 @@ public class ChooseActivity extends AppCompatActivity {
             }
             case R.id.instructions: {
                 AlertDialog.Builder builder = new AlertDialog.Builder (  ChooseActivity.this, R.style.CustomAlertDialog );
-                View dialogView = getLayoutInflater ().inflate ( R.layout.name_missing_dialog, null );
+                View dialogView = getLayoutInflater ().inflate ( R.layout.instructions_dialog, null );
                 builder.setView ( dialogView ).setCancelable ( false );
                 final AlertDialog dialog = builder.show ();
                 Button backBtn = dialogView.findViewById ( R.id.back_btn );
