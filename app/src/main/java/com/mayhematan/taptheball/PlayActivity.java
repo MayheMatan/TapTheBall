@@ -72,10 +72,10 @@ public class PlayActivity extends AppCompatActivity {
         currentXYTV.setVisibility(View.INVISIBLE);
 
         difficult = getIntent ().getIntExtra ( "Level", 0 );
-        if (difficult == 0) {
+        if (difficult == 1) {
             diffToString = "Easy";
         }
-        else if (difficult == 1) {
+        else if (difficult == 2) {
             diffToString = "Medium";
         }
         else

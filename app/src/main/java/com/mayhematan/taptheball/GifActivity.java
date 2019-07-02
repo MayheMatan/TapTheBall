@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +28,7 @@ public class GifActivity extends AppCompatActivity {
                 Intent intent = new Intent ( GifActivity.this, FirstActivity.class );
                 startActivity(intent);
             }
-        } ,2000);
+        } ,1500);
     }
 }
 
