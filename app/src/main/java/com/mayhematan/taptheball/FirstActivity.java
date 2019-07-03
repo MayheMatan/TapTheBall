@@ -22,13 +22,15 @@ public class FirstActivity extends AppCompatActivity {
     MediaPlayer mainSound;
     SharedPreferences preference;
     boolean isMusicOn;
+    MusicManager musicManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_first );
-        mainSound = MediaPlayer.create ( FirstActivity.this, R.raw.jungle );
-        mainSound.start ();
+        musicManager = MusicManager.getInstance ();
+        musicManager.initalizeMediaPlayer ( FirstActivity.this, R.raw.jungle );
+        musicManager.startMusic ();
 
         final Animation slideUp = AnimationUtils.loadAnimation ( getApplicationContext (), R.anim.slide_up_in );
         final Animation buttonAnim = AnimationUtils.loadAnimation ( getApplicationContext (), R.anim.button_anim );
@@ -122,16 +124,19 @@ public class FirstActivity extends AppCompatActivity {
         if (id == R.id.sound) {
             if (item.getTitle ().toString () == getResources ().getString ( R.string.sound_on )) {
                 item.setTitle ( getResources ().getString ( R.string.sound_off ) );
-                mainSound.stop ();
+                musicManager.stopMusic ();
                 preference.edit ().putBoolean ( "sound", false ).apply ();
             } else {
                 item.setTitle ( getResources ().getString ( R.string.sound_on ) );
-                mainSound.release ();
-                mainSound = MediaPlayer.create ( FirstActivity.this, R.raw.jungle );
-                mainSound.start ();
+                musicManager.initalizeMediaPlayer ( FirstActivity.this, R.raw.jungle );
+                musicManager.startMusic ();
                 preference.edit ().putBoolean ( "sound", true ).apply ();
             }
         }
         return super.onOptionsItemSelected ( item );
+    }
+
+    @Override
+    public void onBackPressed() { // Gif activity is no more reachable
     }
 }

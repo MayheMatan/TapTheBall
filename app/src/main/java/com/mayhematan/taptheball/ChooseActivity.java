@@ -25,14 +25,14 @@ public class ChooseActivity extends AppCompatActivity {
     int ballDiff;
     int isMedBall;
     int isExpBall;
-    MediaPlayer mainSound;
     boolean isMusicOn;
+    MusicManager musicManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_choose );
-        mainSound = MediaPlayer.create ( ChooseActivity.this, R.raw.jungle );
+        musicManager = MusicManager.getInstance ();
         preference = PreferenceManager.getDefaultSharedPreferences ( ChooseActivity.this );
         ballDiff = 0;
 
@@ -228,13 +228,12 @@ public class ChooseActivity extends AppCompatActivity {
             case R.id.sound: {
                 if (item.getTitle ().toString () == getResources ().getString ( R.string.sound_on )) {
                     item.setTitle ( getResources ().getString ( R.string.sound_off ) );
-                    mainSound.stop ();
+                    musicManager.stopMusic ();
                     preference.edit ().putBoolean ( "sound", false ).apply ();
                 } else {
                     item.setTitle ( getResources ().getString ( R.string.sound_on ) );
-                    mainSound.release ();
-                    mainSound = MediaPlayer.create ( ChooseActivity.this, R.raw.jungle );
-                    mainSound.start ();
+                    musicManager.initalizeMediaPlayer ( ChooseActivity.this, R.raw.jungle );
+                    musicManager.startMusic ();
                     preference.edit ().putBoolean ( "sound", true ).apply ();
                 }
                 break;

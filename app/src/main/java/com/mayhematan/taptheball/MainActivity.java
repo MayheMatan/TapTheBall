@@ -21,16 +21,16 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     String userName;
     int diff;
-    MediaPlayer mainSound;
     SharedPreferences preference;
     boolean isMusicOn;
+    MusicManager musicManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView ( R.layout.activity_main);
-        mainSound = MediaPlayer.create ( MainActivity.this, R.raw.jungle );
+        musicManager = MusicManager.getInstance ();
 
         final Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_in);
         final Animation buttonAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_anim);
@@ -136,13 +136,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.sound: {
                 if (item.getTitle ().toString () == getResources ().getString ( R.string.sound_on )) {
                     item.setTitle ( getResources ().getString ( R.string.sound_off ) );
-                    mainSound.stop ();
+                    musicManager.stopMusic ();
                     preference.edit ().putBoolean ( "sound", false ).apply ();
                 } else {
                     item.setTitle ( getResources ().getString ( R.string.sound_on ) );
-                    mainSound.release ();
-                    mainSound = MediaPlayer.create ( MainActivity.this, R.raw.jungle );
-                    mainSound.start ();
+                    musicManager.initalizeMediaPlayer ( MainActivity.this, R.raw.jungle );
+                    musicManager.startMusic ();
                     preference.edit ().putBoolean ( "sound", true ).apply ();
                 }
                 break;

@@ -13,10 +13,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -38,6 +42,8 @@ public class PlayActivity extends AppCompatActivity {
     String userName;
     Integer size;
     MediaPlayer kickSound, gameOverSound, mainSound;
+    boolean isMusicOn;
+    MusicManager musicManager;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -45,6 +51,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_play);
 
+        musicManager = MusicManager.getInstance ();
         kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
         gameOverSound = MediaPlayer.create( PlayActivity.this, R.raw.game_over);
         mainSound = MediaPlayer.create ( PlayActivity.this, R.raw.jungle );
@@ -96,8 +103,6 @@ public class PlayActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (event.getY() >= (maxY / 2) && ball.downYping == ball.yPing) {
-
-
                         ////////////while the user touch the ball limits the view goes up
                         if (counter < 10/difficult) {
                             if ((event.getY() - ball.currentY) < ball.largeBallBmp.getHeight() && (event.getY() - ball.currentY) > 0) {
@@ -114,16 +119,6 @@ public class PlayActivity extends AppCompatActivity {
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
-
-                                    //play sound
-                                    try { // also plays when ball drops
-                                        if (kickSound.isPlaying()) {
-                                            kickSound.stop();
-                                            kickSound.release();
-                                            kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
-                                        } kickSound.start();
-                                    } catch(Exception e) { e.printStackTrace(); }
-
                                 }
                             }
 
@@ -248,6 +243,63 @@ public class PlayActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater ().inflate ( R.menu.choose_menu, menu );
+        preference = PreferenceManager.getDefaultSharedPreferences( PlayActivity.this);
+        isMusicOn = preference.getBoolean ( "sound", false );
+        if (isMusicOn) {
+            MenuItem item = menu.findItem ( R.id.sound );
+            item.setTitle ( getResources ().getString ( R.string.sound_on ) );
+        }
+        else {
+            MenuItem item = menu.findItem ( R.id.sound );
+            item.setTitle ( getResources ().getString ( R.string.sound_off ) );
+        }
+        return super.onCreateOptionsMenu ( menu );
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId ();
+        switch (id) {
+            case R.id.sound: {
+                if (item.getTitle ().toString () == getResources ().getString ( R.string.sound_on )) {
+                    item.setTitle ( getResources ().getString ( R.string.sound_off ) );
+                    musicManager.stopMusic ();
+                    preference.edit ().putBoolean ( "sound", false ).apply ();
+                } else {
+                    item.setTitle ( getResources ().getString ( R.string.sound_on ) );
+                    musicManager.initalizeMediaPlayer ( PlayActivity.this, R.raw.jungle );
+                    musicManager.startMusic ();
+                    preference.edit ().putBoolean ( "sound", true ).apply ();
+                }
+                break;
+            }
+            case R.id.instructions: {
+                AlertDialog.Builder builder = new AlertDialog.Builder (  PlayActivity.this, R.style.CustomAlertDialog );
+                View dialogView = getLayoutInflater ().inflate ( R.layout.instructions_dialog, null );
+                builder.setView ( dialogView ).setCancelable ( false );
+                final AlertDialog dialog = builder.show ();
+                Button backBtn = dialogView.findViewById ( R.id.back_btn );
+                backBtn.setOnClickListener ( new View.OnClickListener () {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss ();
+                    }
+                } );
+                break;
+            }
+            case R.id.switch_player: {
+                Intent intent = new Intent ( PlayActivity.this, MainActivity.class );
+                intent.putExtra ( "Name", "" );
+                startActivity(intent);
+                break;
+            }
+        }
+        return super.onOptionsItemSelected ( item );
+    }
+
 
     @Override
     public void onBackPressed() {
