@@ -3,9 +3,11 @@ package com.mayhematan.taptheball;
 import android.content.Context;
 import android.media.MediaPlayer;
 
-public class MusicManager { // Singleton Class
+public class MusicManager { // Singleton Pattern Class
     private static MusicManager reference = null;
     private MediaPlayer mediaPlayer;
+
+    private MusicManager() {}
 
     public static MusicManager getInstance() {
         if (reference == null) {

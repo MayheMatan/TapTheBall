@@ -57,9 +57,7 @@ public class ChooseActivity extends AppCompatActivity {
         handler.postDelayed ( new Runnable () {
             @Override
             public void run() {
-                for (int i = 0; i < ball.length; i++) {
-                    ball[i].startAnimation ( buttonAnim );
-                }
+                ball[0].startAnimation ( buttonAnim );
                 startBtn.startAnimation ( buttonAnim );
             }
         }, 1500 );
@@ -83,6 +81,15 @@ public class ChooseActivity extends AppCompatActivity {
             amountExpBall.setTextSize ( 20 );
         }
 
+        ball[0].setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View view) {
+                ball[2].clearAnimation ();
+                ball[0].startAnimation (buttonAnim);
+                ball[1].clearAnimation ();
+            }
+        } );
+
         ball[1].setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
@@ -105,6 +112,9 @@ public class ChooseActivity extends AppCompatActivity {
                                 preference.edit ().putInt ( "isMedBall", isMedBall ).apply ();
                                 ballDiff = 1;
                                 dialog.dismiss ();
+                                ball[0].clearAnimation ();
+                                ball[1].startAnimation (buttonAnim);
+                                ball[2].clearAnimation ();
                             }
                         } );
                         Button noBtn = dialogView.findViewById ( R.id.no );
@@ -133,6 +143,9 @@ public class ChooseActivity extends AppCompatActivity {
                         } );
                     }
                 } else {
+                    ball[0].clearAnimation ();
+                    ball[1].startAnimation (buttonAnim);
+                    ball[2].clearAnimation ();
                     ballDiff = 1;
                 }
             }
@@ -141,25 +154,29 @@ public class ChooseActivity extends AppCompatActivity {
         ball[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (amountExpBall.getText().toString().equals ("250")) {
-                    if(credit >= 250) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder( ChooseActivity.this, R.style.CustomAlertDialog);
-                        View dialogView = getLayoutInflater().inflate( R.layout.purchese_dialog, null);
-                        builder.setView(dialogView).setCancelable(false);
-                        final AlertDialog dialog = builder.show();
+                if (amountExpBall.getText ().toString ().equals ( "250" )) {
+                    if (credit >= 250) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder ( ChooseActivity.this, R.style.CustomAlertDialog );
+                        View dialogView = getLayoutInflater ().inflate ( R.layout.purchese_dialog, null );
+                        builder.setView ( dialogView ).setCancelable ( false );
+                        final AlertDialog dialog = builder.show ();
                         Button yesBtn = dialogView.findViewById ( R.id.yes );
                         yesBtn.setOnClickListener ( new View.OnClickListener () {
                             @Override
                             public void onClick(View v) {
                                 isExpBall = 1;
                                 credit -= 250;
-                                amountExpBall.setText(getResources ().getString ( R.string.purchased ));
+                                amountExpBall.setText ( getResources ().getString ( R.string.purchased ) );
                                 amountExpBall.setTextSize ( 20 );
-                                creditTv.setText(""+getResources().getString( R.string.credit) + " "+ credit);
-                                preference.edit ().putInt("credit", credit).apply();
+                                creditTv.setText ( "" + getResources ().getString ( R.string.credit ) + " " + credit );
+                                preference.edit ().putInt ( "credit", credit ).apply ();
                                 preference.edit ().putInt ( "isExpBall", isExpBall ).apply ();
                                 ballDiff = 2;
                                 dialog.dismiss ();
+                                ball[0].clearAnimation ();
+                                ball[2].startAnimation ( buttonAnim );
+                                ball[1].clearAnimation ();
+
                             }
                         } );
                         Button noBtn = dialogView.findViewById ( R.id.no );
@@ -169,15 +186,14 @@ public class ChooseActivity extends AppCompatActivity {
                                 dialog.dismiss ();
                             }
                         } );
-                        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_anim);
+                        Animation animation = AnimationUtils.loadAnimation ( getApplicationContext (), R.anim.button_anim );
                         yesBtn.startAnimation ( animation );
                         noBtn.startAnimation ( animation );
-                    }
-                    else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder( ChooseActivity.this, R.style.CustomAlertDialog);
-                        View dialogView = getLayoutInflater().inflate( R.layout.no_funds_dialog, null);
-                        builder.setView(dialogView).setCancelable(false);
-                        final AlertDialog dialog = builder.show();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder ( ChooseActivity.this, R.style.CustomAlertDialog );
+                        View dialogView = getLayoutInflater ().inflate ( R.layout.no_funds_dialog, null );
+                        builder.setView ( dialogView ).setCancelable ( false );
+                        final AlertDialog dialog = builder.show ();
                         Button backBtn = dialogView.findViewById ( R.id.back );
                         backBtn.startAnimation ( buttonAnim );
                         backBtn.setOnClickListener ( new View.OnClickListener () {
@@ -187,9 +203,12 @@ public class ChooseActivity extends AppCompatActivity {
                             }
                         } );
                     }
-                }
-                else
+                } else {
                     ballDiff = 2;
+                    ball[0].clearAnimation ();
+                    ball[2].startAnimation ( buttonAnim );
+                    ball[1].clearAnimation ();
+                }
             }
         } );
 

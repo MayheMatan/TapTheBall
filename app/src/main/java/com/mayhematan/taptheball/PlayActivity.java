@@ -119,6 +119,13 @@ public class PlayActivity extends AppCompatActivity {
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
+                                    if (kickSound.isPlaying ()) { // Handling the kicking sound
+                                        kickSound.stop();
+                                        kickSound.release();
+                                        kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
+                                        kickSound.start ();
+                                    }
+                                    kickSound.start ();
                                 }
                             }
 
@@ -135,6 +142,14 @@ public class PlayActivity extends AppCompatActivity {
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
+                                    if (kickSound.isPlaying ()) { // Handling the kicking sound
+                                        kickSound.stop();
+                                        kickSound.release();
+                                        kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
+                                        kickSound.start ();
+                                    }
+                                    kickSound.start ();
+
                                 }
                             }
                         } else if (counter >= 20/difficult) {
@@ -149,6 +164,13 @@ public class PlayActivity extends AppCompatActivity {
                                     counter++;
                                     ball.counter++;
                                     currentXYTV.setText("" + counter);
+                                    if (kickSound.isPlaying ()) { // Handling the kicking sound
+                                        kickSound.stop();
+                                        kickSound.release();
+                                        kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
+                                        kickSound.start ();
+                                    }
+                                    kickSound.start ();
                                 }
                             }
                         }

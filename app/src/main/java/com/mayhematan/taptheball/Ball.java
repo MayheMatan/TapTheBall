@@ -81,44 +81,39 @@ public class Ball extends View {
         final Runnable BallFall = new Runnable() {
             @Override
             public void run() {
-                currentY=currentY+ yPing;
-                currentX=currentX+ xPing;
-                if (counter<10){
-                    if (currentX>(maxX- largeBallBmp.getWidth()))
-                    {
-                        xPing = upXping;
-                    }}else if (counter >= 10 && counter < 20){
-                    if (currentX > (maxX- middleBallBmp.getWidth()))
-                    {
-                        xPing = upXping;
-                    }}else if (counter>=20) {
-                    if (currentX>(maxX- smallBallBmp.getWidth()))
-                    {
+                currentY += yPing;
+                currentX += xPing;
+                if (counter < 10){
+                    if (currentX > (maxX - largeBallBmp.getWidth())) {
                         xPing = upXping;
                     }
                 }
-                if (currentY<0)
-                {
+                else if (counter >= 10 && counter < 20){
+                    if (currentX > (maxX- middleBallBmp.getWidth())) {
+                        xPing = upXping;
+                    }
+                }
+                else if (counter >= 20) {
+                    if (currentX > (maxX - smallBallBmp.getWidth())) {
+                        xPing = upXping;
+                    }
+                }
+                if (currentY < 0) {
                     yPing = downYping;
-                }if (currentX<0)
-                {
+                }
+                if (currentX < 0) {
                     xPing = downXping;
                 }
-                if (currentY<maxY)
-                {
+                if (currentY < maxY) {
                     handler.postDelayed(this,1);
-
-                }else {
+                }else if (maxY < currentY){
                     ////////////if the ball falls from the ended Y the handler is stop and send broadcast
                     Intent intent = new Intent("com.mayhematan.taptheball.HANDLER_STOP");
                     LocalBroadcastManager.getInstance( myContext ).sendBroadcast(intent);
                     handler.removeCallbacks(this);
                     isInitLine = false;
-
                 }
-
                 //TODO check why on game exist tocuh back press send broadcast
-
                  invalidate();
             }
         };

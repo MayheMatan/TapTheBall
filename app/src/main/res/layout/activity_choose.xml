@@ -25,16 +25,6 @@
         android:textSize="50sp"
         android:fontFamily="casual"/>
 
-    <ImageButton
-        android:id="@+id/noob_ball"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ball_noob"
-        android:background="@color/zeroAlpha"
-        android:layout_below="@+id/ball_select"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,6 +68,16 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/noob_ball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ball_noob"
+        android:background="@color/zeroAlpha"
+        android:layout_below="@+id/ball_select"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"/>
 
     <ImageButton
         android:id="@+id/med_ball"
