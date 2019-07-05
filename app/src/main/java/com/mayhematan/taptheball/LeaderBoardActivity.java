@@ -50,7 +50,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
         playerAdapter.setListener(new PlayerAdapter.MyPlayerListener() {
             @Override
             public void onPlayerClicked(int position, View view) {
-                Toast.makeText( LeaderBoardActivity.this, playerInfoList.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -70,11 +69,6 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-                if(direction==ItemTouchHelper.RIGHT)
-                    Toast.makeText( LeaderBoardActivity.this, "Right", Toast.LENGTH_SHORT).show();
-                else if(direction==ItemTouchHelper.LEFT)
-                    Toast.makeText( LeaderBoardActivity.this, "Left", Toast.LENGTH_SHORT).show();
 
                 playerInfoList.remove(viewHolder.getAdapterPosition());
                 playerAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());

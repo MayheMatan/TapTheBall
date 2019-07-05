@@ -19,7 +19,6 @@ import android.widget.ImageView;
 public class FirstActivity extends AppCompatActivity {
 
     AlertDialog dialog;
-    MediaPlayer mainSound;
     SharedPreferences preference;
     boolean isMusicOn;
     MusicManager musicManager;
@@ -67,8 +66,8 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent mainIntent = new Intent ( FirstActivity.this, MainActivity.class );
-
                 startActivity ( mainIntent );
+                finish ();
             }
         } );
 
@@ -77,8 +76,8 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent LeaderboardIntent = new Intent ( FirstActivity.this, LeaderBoardActivity.class );
-
                 startActivity ( LeaderboardIntent );
+                finish ();
             }
         } );
 

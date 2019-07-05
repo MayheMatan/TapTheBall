@@ -275,6 +275,7 @@ public class ChooseActivity extends AppCompatActivity {
                 Intent intent = new Intent ( ChooseActivity.this, MainActivity.class );
                 intent.putExtra ( "Name", "" );
                 startActivity(intent);
+                finish ();
                 break;
             }
         }

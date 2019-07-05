@@ -316,6 +316,7 @@ public class PlayActivity extends AppCompatActivity {
                 Intent intent = new Intent ( PlayActivity.this, MainActivity.class );
                 intent.putExtra ( "Name", "" );
                 startActivity(intent);
+                finish ();
                 break;
             }
         }
