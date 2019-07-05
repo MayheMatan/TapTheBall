@@ -22,6 +22,7 @@ public class FirstActivity extends AppCompatActivity {
     SharedPreferences preference;
     boolean isMusicOn;
     MusicManager musicManager;
+    ImageView logoIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class FirstActivity extends AppCompatActivity {
         Button playBtn = findViewById ( R.id.play_btn );
         Button highScoresBtn = findViewById ( R.id.high_scores_btn );
         Button instructionsBtn = findViewById ( R.id.instructions_btn );
-        ImageView logoIv = findViewById ( R.id.logo );
+        logoIv = findViewById ( R.id.logo );
         logoIv.setAnimation ( slideRight );
         logoIv.animate ().rotationY ( 360 ).setDuration ( 2500 );
 

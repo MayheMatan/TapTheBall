@@ -14,7 +14,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     private List<Player> players;
     private MyPlayerListener listener;
 
-    interface MyPlayerListener {
+    interface MyPlayerListener { // interface to be later implement for showing names and deleting cards
         void onPlayerClicked(int position, View view);
         void onPlayerLongClicked(int position, View view);
     }
@@ -72,7 +72,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     }
 
     @Override
-    public void onBindViewHolder(PlayerViewHolder holder, int position) {
+    public void onBindViewHolder(PlayerViewHolder holder, int position) { // View holder for card view later
         Player player = players.get(position);
         holder.nameTv.setText(""+player.getName());
         holder.creditTv.setText(player.getScore ()+"");

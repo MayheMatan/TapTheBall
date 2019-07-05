@@ -64,10 +64,6 @@ public class Player {
         return score;
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
     public String BitMapToString(Bitmap bitmap) {
         if(bitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

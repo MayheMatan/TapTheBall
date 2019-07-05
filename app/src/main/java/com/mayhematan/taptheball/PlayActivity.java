@@ -51,7 +51,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_play);
 
-        musicManager = MusicManager.getInstance ();
+        musicManager = MusicManager.getInstance (); // singleton instance
         kickSound = MediaPlayer.create( PlayActivity.this, R.raw.kicking_ball_sound);
         gameOverSound = MediaPlayer.create( PlayActivity.this, R.raw.game_over);
         mainSound = MediaPlayer.create ( PlayActivity.this, R.raw.jungle );
@@ -187,7 +187,7 @@ public class PlayActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("com.mayhematan.taptheball.HANDLER_STOP")) {
+            if (intent.getAction().equals("com.mayhematan.taptheball.HANDLER_STOP")) { // getting all new parameters for leaderboard and new game
                 //////////Playing game over sound
                 try {
                     if (gameOverSound.isPlaying()) {
@@ -206,7 +206,7 @@ public class PlayActivity extends AppCompatActivity {
                     preference.edit().putInt("top score", counter).apply();
                 }
                 SharedPreferences.Editor editor = preference.edit();
-                switch (ballDiff) {
+                switch (ballDiff) { // sorting players by the ball to display later on leaderboard
                     case 0: {
                         Player score = new Player ( BitmapFactory.decodeResource ( getResources (), R.drawable.ball_noob ),
                                 getIntent ().getStringExtra ( "Name" ), counter, diffToString );
@@ -242,7 +242,7 @@ public class PlayActivity extends AppCompatActivity {
                 startfragment = new StartFragment ();
                 getFragmentManager().beginTransaction().replace( R.id.FullFrameLayout, startfragment).commit();
             }
-            else if (intent.getAction().equals("com.mayhematan.taptheball.GAME_BEGIN")) {
+            else if (intent.getAction().equals("com.mayhematan.taptheball.GAME_BEGIN")) { // initializing new ball for new game + new line
                 ////////////initialize the custom ball view to start another turn
                 if (maxX < 700 && maxY < 1000) {
                     ball.downXping = 8;
@@ -256,7 +256,7 @@ public class PlayActivity extends AppCompatActivity {
                 ball.InitializeLine();
                 currentXYTV.setVisibility(View.VISIBLE);
             }
-            else if (intent.getAction().equals("com.mayhematan.taptheball.BACK_TO_MAIN")) {
+            else if (intent.getAction().equals("com.mayhematan.taptheball.BACK_TO_MAIN")) { // handeling back to menu from game
                 intent = new Intent ( PlayActivity.this, MainActivity.class );
                 String name = getIntent ().getStringExtra ( "Name" );
                 intent.putExtra ( "Name", name );
@@ -325,6 +325,6 @@ public class PlayActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() { // back is forbiden from game while its working and can be only acceced by pressing back to menu
     }
 }

@@ -29,7 +29,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize ( true );
         recyclerView.setLayoutManager(new LinearLayoutManager (this));
         preference = PreferenceManager.getDefaultSharedPreferences ( LeaderBoardActivity.this );
-        playerInfoList = new ArrayList<> ();
+        playerInfoList = new ArrayList<> (); // initializing all the players ever played the game
         size = preference.getInt ( "size", 0 );
         for (Integer playerInfo = 1; playerInfo <= size; playerInfo++) {
             String tmp = preference.getString ( playerInfo.toString (), "" );
@@ -38,9 +38,9 @@ public class LeaderBoardActivity extends AppCompatActivity {
                 playerInfoList.add ( player );
             }
         }
-        Collections.sort ( playerInfoList, new Comparator<Player> () {
+        Collections.sort ( playerInfoList, new Comparator<Player> () { // sorting the players by scores to show later by desending order.
             @Override
-            public int compare(Player o1, Player o2) {
+            public int compare(Player o1, Player o2) { //
                 int score1 = o1.getScore ();
                 int score2 = o2.getScore ();
                 return score2-score1;
