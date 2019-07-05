@@ -67,7 +67,6 @@ public class FirstActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent mainIntent = new Intent ( FirstActivity.this, MainActivity.class );
                 startActivity ( mainIntent );
-                finish ();
             }
         } );
 
@@ -77,7 +76,6 @@ public class FirstActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent LeaderboardIntent = new Intent ( FirstActivity.this, LeaderBoardActivity.class );
                 startActivity ( LeaderboardIntent );
-                finish ();
             }
         } );
 

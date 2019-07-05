@@ -257,10 +257,10 @@ public class PlayActivity extends AppCompatActivity {
                 currentXYTV.setVisibility(View.VISIBLE);
             }
             else if (intent.getAction().equals("com.mayhematan.taptheball.BACK_TO_MAIN")) {
-                Intent intent1 = new Intent ( PlayActivity.this, MainActivity.class );
+                intent = new Intent ( PlayActivity.this, MainActivity.class );
                 String name = getIntent ().getStringExtra ( "Name" );
-                intent1.putExtra ( "Name", name );
-                startActivity(intent1);
+                intent.putExtra ( "Name", name );
+                startActivity(intent);
                 finish ();
             }
         }

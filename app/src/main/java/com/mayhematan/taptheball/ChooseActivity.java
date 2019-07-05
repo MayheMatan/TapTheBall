@@ -220,6 +220,7 @@ public class ChooseActivity extends AppCompatActivity {
                 intent.putExtra ("Name", userName);
                 intent.putExtra ("BallDiff", ballDiff);
                 startActivity (intent);
+                finish ();
             }
         } );
     }
